@@ -1,0 +1,24 @@
+.all-categories {
+  font-size: 14px;
+  font-weight: normal;
+  position: fixed;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  // align-items: left;
+  margin-left: 1.3rem;
+  width: 12%;
+  height: 100%;
+
+  .logo-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 2.4rem;
+    h1 {
+      scale: 1.5;
+    }
+  }
+}

@@ -1,0 +1,20 @@
+.recomended {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 97px;
+  margin-bottom: 20px;
+  margin-left: 3vh;
+  width: 76vw;
+  .buttons {
+    display: flex;
+    gap: 5px;
+
+    // overflow-x: scroll;
+    input[type="button"] {
+      border: 1px solid rgb(172, 171, 171);
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+  }
+}
