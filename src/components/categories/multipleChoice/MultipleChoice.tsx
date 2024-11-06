@@ -1,3 +1,4 @@
+import { useShoeContext } from "../../../contexts/shoeContext";
 import "./multipleChoice.scss";
 
 import React, { useState } from "react";
@@ -12,10 +13,15 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
   options,
 }) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const { filteredCriteria, setFilteredCriteria } = useShoeContext();
+  console.log("filtered criteria: ", filteredCriteria);
 
   const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedOption(event.target.value);
+    const key_ = event.target.name.toLowerCase();
+    const val = event.target.value.toLocaleLowerCase();
     console.log(event.target.name, ": ", event.target.value);
+    setFilteredCriteria((prevCriteria) => ({ ...prevCriteria, [key_]: val }));
   };
 
   return (
@@ -26,7 +32,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
           <label key={option} className="custom-radio">
             <input
               type="radio"
-              name={question}
+              name={question.toLowerCase()}
               value={option}
               checked={selectedOption === option}
               onChange={handleOptionChange}

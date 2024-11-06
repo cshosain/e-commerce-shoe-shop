@@ -1,10 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { createContext, useContext, ReactNode, useEffect } from "react";
+import React, {
+  createContext,
+  useContext,
+  ReactNode,
+  useEffect,
+  useState,
+} from "react";
 import { useInfiniteQuery } from "react-query";
 import axios from "axios";
 
 // Define the shape of the context data
 type ShoeContextType = {
+  filteredCriteria: object;
+  setFilteredCriteria: React.Dispatch<React.SetStateAction<FilterCriteria>>;
   shoes: {
     _id: string;
     img: string;
@@ -24,26 +32,49 @@ type ShoeContextType = {
 // Create the context with default values
 const ShoeContext = createContext<ShoeContextType | undefined>(undefined);
 
-// Fetching function for infinite query
-const fetchShoes = async ({ pageParam = 1 }) => {
-  const response = await axios.get(
-    `http://localhost:3000/api/shoes/paginated?limit=10&page=${pageParam}`
-  );
-  return response.data;
-};
-
 // Define the provider props type to include children
 type ShoeProviderProps = {
   children: ReactNode;
 };
+//type for filtredCriteria and setter
+type FilterCriteria = {
+  brand: string;
+  price: string;
+  category: string;
+  color: string;
+};
 
 // Provider component
 export const ShoeProvider: React.FC<ShoeProviderProps> = ({ children }) => {
+  const [filteredCriteria, setFilteredCriteria] = useState<FilterCriteria>({
+    brand: "All Products",
+    price: "all",
+    category: "all",
+    color: "all",
+  });
+
+  // Fetching function for infinite query
+  const fetchShoes = async ({ pageParam = 1 }) => {
+    const response = await axios.get(
+      `http://localhost:3000/api/shoes/paginated`,
+      {
+        headers: {
+          criteria: JSON.stringify(filteredCriteria),
+        },
+        params: {
+          limit: 10,
+          page: pageParam,
+        },
+      }
+    );
+    return response.data;
+  };
+
   const { data, isLoading, isError, error, fetchNextPage, hasNextPage } =
-    useInfiniteQuery("shoesData", fetchShoes, {
+    useInfiniteQuery(["shoesData", filteredCriteria], fetchShoes, {
       getNextPageParam: (lastPage, allPages) => {
         console.log(lastPage);
-        console.log(allPages);
+        // console.log(allPages);
         // Assuming the API provides a `hasMore` property in response
         return lastPage.hasMore ? allPages.length + 1 : undefined;
       },
@@ -76,6 +107,8 @@ export const ShoeProvider: React.FC<ShoeProviderProps> = ({ children }) => {
         error,
         fetchNextPage,
         hasNextPage,
+        filteredCriteria,
+        setFilteredCriteria,
       }}
     >
       {children}

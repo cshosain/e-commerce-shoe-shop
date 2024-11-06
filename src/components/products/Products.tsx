@@ -9,6 +9,7 @@ const Products = () => {
     <div className="products">
       {isLoading && <h1>Loading...</h1>}
       {isError && <p>{error.message}</p>}
+      {!shoes.length && !isLoading ? <p>No Item Found!</p> : ""}
       {shoes?.map((singleShoe) => (
         <Card key={singleShoe._id} {...singleShoe} />
       ))}

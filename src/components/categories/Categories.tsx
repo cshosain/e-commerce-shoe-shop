@@ -11,12 +11,12 @@ const Categories = () => {
         </h1>
       </section>
       <MultipleChoice
-        question="Catagory"
+        question="Category"
         options={["All", "Sneakers", "Flats", "Sandals", "Heels"]}
       />
       <MultipleChoice
         question="Price"
-        options={["$0 - 50", "$51 - 100", "$101 - 150", "$151 - Above"]}
+        options={["All", "$0 - 50", "$51 - 100", "$101 - 150", "$151 - Above"]}
       />
       <MultipleChoice
         question="Color"

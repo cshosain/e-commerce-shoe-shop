@@ -9,6 +9,10 @@
   .buttons {
     display: flex;
     gap: 5px;
+    .active {
+      background-color: rgb(32, 32, 56);
+      color: white;
+    }
 
     // overflow-x: scroll;
     input[type="button"] {
