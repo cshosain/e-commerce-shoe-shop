@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import { useInfiniteQuery } from "react-query";
 import axios from "axios";
+import Dummydata from "../assets/data";
 
 // Define the shape of the context data
 type ShoeContextType = {
@@ -42,6 +43,7 @@ type FilterCriteria = {
   price: string;
   category: string;
   color: string;
+  keyword: string;
 };
 
 // Provider component
@@ -51,19 +53,16 @@ export const ShoeProvider: React.FC<ShoeProviderProps> = ({ children }) => {
     price: "all",
     category: "all",
     color: "all",
+    keyword: "",
   });
 
   // Fetching function for infinite query
   const fetchShoes = async ({ pageParam = 1 }) => {
     const response = await axios.get(
-      `http://localhost:3000/api/shoes/paginated`,
+      `http://localhost:3000/api/shoes/paginated?limit=10&page=${pageParam}&brand=${filteredCriteria.brand}&category=${filteredCriteria.category}&color=${filteredCriteria.color}&price=${filteredCriteria.price}&keyword=${filteredCriteria.keyword}`,
       {
         headers: {
-          criteria: JSON.stringify(filteredCriteria),
-        },
-        params: {
-          limit: 10,
-          page: pageParam,
+          token: "Bearer my token",
         },
       }
     );
@@ -102,6 +101,7 @@ export const ShoeProvider: React.FC<ShoeProviderProps> = ({ children }) => {
     <ShoeContext.Provider
       value={{
         shoes: data?.pages.flatMap((page) => page.data) || [],
+        // shoes: Dummydata,
         isLoading,
         isError,
         error,

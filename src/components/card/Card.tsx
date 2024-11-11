@@ -41,7 +41,7 @@ const Card = ({
           </section>
           <section className="card-price">
             <div className="price">
-              <del>{prevPrice}</del> {newPrice}
+              <del>${prevPrice}</del> {newPrice}
             </div>
             <div className="bag">
               <IoBagCheck className="bag-icon" />

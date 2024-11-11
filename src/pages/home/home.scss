@@ -1,14 +1,35 @@
+@use "../../styles/responsive.scss" as *;
+
 .home {
   height: 100vh;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
 
   .selcetion {
-    width: 15%;
-    border-right: 1px solid rgb(180, 180, 180);
+    display: block;
+    width: 200px;
+
+    @include md {
+      display: block;
+      background-color: rgb(238, 215, 245);
+      overflow: hidden;
+      position: fixed;
+      display: block;
+      z-index: 1;
+      height: 100vh;
+      left: 0;
+      width: 150px;
+    }
+  }
+  .selcetion-active {
+    @include md {
+      display: none;
+    }
   }
   .view {
-    width: 85%;
+    @include md {
+      width: 100%;
+    }
   }
 }

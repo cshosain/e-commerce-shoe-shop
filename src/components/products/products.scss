@@ -1,10 +1,35 @@
+@use "../../styles/responsive.scss" as *;
+
 .products {
   width: 79vw;
   height: 76vh;
   // border: 1px solid olive;
-  margin-left: 7vh;
+  margin-left: 0;
   display: flex;
   justify-content: flex-start;
   gap: 15px;
   flex-wrap: wrap;
+  margin-left: 0;
+
+  @include xl {
+    margin-left: 43px;
+  }
+  @include md {
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: auto;
+  }
+}
+.products-invisible {
+  opacity: 0.4;
+  background: rgb(227, 255, 246);
+}
+.outer-products {
+  position: absolute;
+}
+
+.outer-products-invisible {
+  background-color: black;
+  transition: background-color 0.5s;
 }

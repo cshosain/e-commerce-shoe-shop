@@ -1,5 +1,7 @@
+@use "../../styles/responsive.scss" as *;
+
 nav {
-  width: 85vw;
+  width: 100%;
   height: 80px;
   position: fixed;
   display: flex;
@@ -7,26 +9,74 @@ nav {
   background-color: #131921;
   color: white;
   z-index: 999;
+  margin-left: 0;
+
+  @include xl {
+    margin-left: 43px;
+  }
+  @include md {
+    width: 100%;
+    margin: 0;
+  }
   .inner-nav {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
     margin-bottom: 14px;
+    padding-right: 10vw;
     /* padding-bottom: 1rem; */
+
+    @include md {
+      width: 100%;
+      justify-content: space-around;
+    }
 
     .profile-container {
       display: flex;
       flex-direction: row;
       width: 20vw;
-      justify-content: space-evenly;
+      justify-content: space-around;
       align-items: center;
     }
     input[type="text"] {
-      width: 493px;
+      width: 40vw;
       border: 1px solid rgb(197, 197, 197);
       padding: 10px 8px;
       border-radius: 5px;
+      @include md {
+        width: 40vw;
+      }
+    }
+    .hamburger {
+      display: none;
+      cursor: pointer;
+      @include md {
+        display: block;
+      }
+
+      span {
+        display: block;
+        width: 25px;
+        height: 3px;
+        margin: 5px auto;
+        -webkit-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+        background-color: white;
+      }
+    }
+    @include md {
+      .hamburger-active {
+        .bar:nth-child(2) {
+          opacity: 0;
+        }
+        .bar:nth-child(1) {
+          transform: translateY(8px) rotate(45deg);
+        }
+        .bar:nth-child(3) {
+          transform: translateY(-8px) rotate(-45deg);
+        }
+      }
     }
   }
 }

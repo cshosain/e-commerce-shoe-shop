@@ -1,3 +1,5 @@
+@use "../../styles/responsive.scss" as *;
+
 .all-categories {
   font-size: 14px;
   font-weight: normal;
@@ -8,8 +10,11 @@
   gap: 18px;
   // align-items: left;
   margin-left: 1.3rem;
-  width: 12%;
+  width: 120px;
   height: 100%;
+  @include md {
+    width: max-content;
+  }
 
   .logo-section {
     display: flex;

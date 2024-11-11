@@ -1,0 +1,40 @@
+@use "./responsive.scss" as *;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+body {
+  background-color: rgb(227, 255, 246);
+  // @include xxl {
+  //   background-color: rgb(147, 130, 164);
+  // }
+  // @include xl {
+  //   background-color: rgb(150, 153, 51);
+  // }
+  // @include lg {
+  //   background-color: rgb(153, 70, 51);
+  // }
+  // @include md {
+  //   background-color: rgb(247, 54, 54);
+  // }
+  // @include sm {
+  //   background-color: rgb(51, 144, 153);
+  // }
+}
+a {
+  text-decoration: none;
+  color: #fff;
+  display: flex;
+  align-items: center;
+}
+input[type="button"] {
+  cursor: pointer;
+}
+label {
+  input[type="radio"] {
+    margin-right: 10px;
+  }
+}

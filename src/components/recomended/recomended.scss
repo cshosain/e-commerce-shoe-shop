@@ -1,11 +1,30 @@
+@use "../../styles/responsive.scss" as *;
+
 .recomended {
   display: flex;
   flex-direction: column;
   gap: 10px;
   margin-top: 97px;
   margin-bottom: 20px;
-  margin-left: 3vh;
+  margin-left: 0;
   width: 76vw;
+  margin-left: 0;
+
+  @include xl {
+    margin-left: 43px;
+  }
+  .recomended-head {
+    @include md {
+      display: block;
+      margin: auto;
+    }
+  }
+
+  @include md {
+    margin-left: auto;
+    margin-right: auto;
+    width: max-content;
+  }
   .buttons {
     display: flex;
     gap: 5px;
@@ -21,4 +40,8 @@
       border-radius: 4px;
     }
   }
+}
+
+.recom-invisible {
+  opacity: 0.4;
 }

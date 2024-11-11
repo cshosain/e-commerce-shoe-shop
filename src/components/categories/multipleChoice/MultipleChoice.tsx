@@ -12,7 +12,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
   question,
   options,
 }) => {
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [selectedOption, setSelectedOption] = useState<string | null>("All");
   const { filteredCriteria, setFilteredCriteria } = useShoeContext();
   console.log("filtered criteria: ", filteredCriteria);
 

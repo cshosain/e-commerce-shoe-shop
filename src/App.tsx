@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "react-query";
-import "./App.css";
+import "./styles/App.scss";
 import { ShoeProvider } from "./contexts/shoeContext";
 import Home from "./pages/home/Home";
 

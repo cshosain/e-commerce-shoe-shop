@@ -3,11 +3,14 @@ import { useShoeContext } from "../../contexts/shoeContext";
 import "./recomended.scss";
 
 type BtnIds = boolean[];
+type Prop = {
+  displayMenu: boolean;
+};
 
-const Recomended = () => {
+const Recomended = ({ displayMenu }: Prop) => {
   const { setFilteredCriteria } = useShoeContext();
   const [btnIds, setBtnIds] = useState<BtnIds>([
-    false,
+    true,
     false,
     false,
     false,
@@ -25,8 +28,8 @@ const Recomended = () => {
   };
 
   return (
-    <div className="recomended">
-      <h2>Recomended</h2>
+    <div className={displayMenu ? "recomended recom-invisible" : "recomended"}>
+      <h2 className="recomended-head">Recomended</h2>
       <div className="buttons">
         <input
           className={btnIds[0] ? "active" : ""}
