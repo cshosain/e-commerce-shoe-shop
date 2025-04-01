@@ -1,7 +1,7 @@
 @use "../../styles/responsive.scss" as *;
 
 .products {
-  width: 79vw;
+  // width: 79vw;
   height: 76vh;
   // border: 1px solid olive;
   margin-left: 0;
@@ -11,9 +11,9 @@
   flex-wrap: wrap;
   margin-left: 0;
 
-  @include xl {
-    margin-left: 43px;
-  }
+  // @include xl {
+  //   margin-left: 43px;
+  // }
   @include md {
     justify-content: center;
     margin-left: auto;

@@ -1,5 +1,11 @@
 @use "../../styles/responsive.scss" as *;
 
+.sidebar {
+  display: flex;
+  /* flex-direction: column; */
+  justify-content: space-evenly;
+}
+
 .all-categories {
   font-size: 14px;
   font-weight: normal;
@@ -9,7 +15,7 @@
   flex-direction: column;
   gap: 18px;
   // align-items: left;
-  margin-left: 1.3rem;
+  justify-content: center;
   width: 120px;
   height: 100%;
   @include md {

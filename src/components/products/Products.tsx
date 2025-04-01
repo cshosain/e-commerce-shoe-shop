@@ -7,7 +7,6 @@ type Prop = {
 };
 const Products = ({ displayMenu }: Prop) => {
   const { shoes, isLoading, isError, error } = useShoeContext();
-  console.log(shoes ? shoes : "");
 
   return (
     <div
@@ -22,7 +21,7 @@ const Products = ({ displayMenu }: Prop) => {
         {isError && <p>{error.message}</p>}
         {!shoes.length && !isLoading ? <p>No Item Found!</p> : ""}
         {shoes?.map((singleShoe) => (
-          <Card key={singleShoe._id} {...singleShoe} />
+          <Card key={singleShoe._id} img={singleShoe.img} ratings={singleShoe.ratings} reviews={singleShoe.reviews} productId={singleShoe._id} title={singleShoe.title} prevPrice={singleShoe.prevPrice} newPrice={singleShoe.newPrice} />
         ))}
       </div>
     </div>

@@ -10,9 +10,9 @@
   width: 76vw;
   margin-left: 0;
 
-  @include xl {
-    margin-left: 43px;
-  }
+  // @include xl {
+  //   margin-left: 43px;
+  // }
   .recomended-head {
     @include md {
       display: block;

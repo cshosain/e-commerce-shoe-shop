@@ -23,7 +23,7 @@ const Recomended = ({ displayMenu }: Prop) => {
     setBtnIds((prev) => [...prev, (prev[id] = true)]);
     setFilteredCriteria((prevCriteria) => ({
       ...prevCriteria,
-      brand: value,
+      brand: value === "All Products" ? "All" : value,
     }));
   };
 

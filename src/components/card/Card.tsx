@@ -1,55 +1,54 @@
 import { IoBagCheck } from "react-icons/io5";
 import "./card.scss";
 import { AiFillStar } from "react-icons/ai";
+import { useNavigate } from "react-router-dom"; // ✅ Import useNavigate
 
 type Props = {
-  _id: string;
+  productId: string;
   img: string;
   title: string;
-  // star: React.ReactNode;
-  star: string;
-  reviews: string;
-  prevPrice: string;
-  newPrice: string;
+  ratings: { average: number, total: number };
+  reviews: { user: string; comment: string; rating: number; _id: string; createdAt: string }[];
+  prevPrice: number;
+  newPrice: number;
 };
 
-const Card = ({
-  _id,
-  img,
-  title,
-  star,
-  reviews,
-  prevPrice,
-  newPrice,
-}: Props) => {
+const Card = ({ productId, img, title, ratings, reviews, prevPrice, newPrice }: Props) => {
+  const navigate = useNavigate(); // ✅ Initialize navigate function
+
+  const stars = Math.round(ratings.average);
   const x = [];
-  for (let i = 0; i < parseInt(star); i++) {
+  for (let i = 0; i < stars; i++) {
     x.push(i);
   }
 
+  // ✅ Navigate to product details page when image is clicked
+  const handleProductClick = () => {
+    navigate(`/product/${productId}`); // Redirect to the product details page
+  };
+
   return (
-    <>
-      <section className="card">
-        <img loading="lazy" src={img} alt={title} className="card-img" />
-        <div className="card-details">
-          <h3 className="card-title">{title}</h3>
-          <section className="card-reviews">
-            {x.map((i) => (
-              <AiFillStar key={i} className="rating-star" />
-            ))}
-            <span className="total-reviews">{reviews}</span>
-          </section>
-          <section className="card-price">
-            <div className="price">
-              <del>${prevPrice}</del> {newPrice}
-            </div>
-            <div className="bag">
-              <IoBagCheck className="bag-icon" />
-            </div>
-          </section>
-        </div>
-      </section>
-    </>
+    <section className="card">
+      {/* ✅ Click event navigates to the product details page */}
+      <img onClick={handleProductClick} loading="lazy" src={img} alt={title} className="card-img" />
+      <div className="card-details">
+        <h3 className="card-title">{title}</h3>
+        <section className="card-reviews">
+          {x.map((i) => (
+            <AiFillStar key={i} className="rating-star" />
+          ))}
+          <span className="total-reviews">({reviews.length})</span>
+        </section>
+        <section className="card-price">
+          <div className="price">
+            <del>${prevPrice}</del> ${newPrice}
+          </div>
+          <div className="bag">
+            <IoBagCheck className="bag-icon" />
+          </div>
+        </section>
+      </div>
+    </section>
   );
 };
 

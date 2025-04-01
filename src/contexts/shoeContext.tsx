@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import { useInfiniteQuery } from "react-query";
 import axios from "axios";
-import Dummydata from "../assets/data";
+// import Dummydata from "../assets/data";
 
 // Define the shape of the context data
 type ShoeContextType = {
@@ -16,12 +16,25 @@ type ShoeContextType = {
   setFilteredCriteria: React.Dispatch<React.SetStateAction<FilterCriteria>>;
   shoes: {
     _id: string;
+    availableColors: string[];
+
+    availableSizes: number[];
+    barnd: string;
+    category: string;
+    createdAt: string;
+    discount: number;
+    images: string[];
+    isFeatured: boolean;
+
     img: string;
     title: string;
-    star: string;
-    reviews: string;
-    prevPrice: string;
-    newPrice: string;
+    ratings: { average: number, total: number };
+    reviews: { user: string, comment: string, rating: number, _id: string, createdAt: string }[];
+    prevPrice: number;
+    newPrice: number;
+    stock: number;
+    updatedAt: string;
+    __v: number;
   }[];
   isLoading: boolean;
   isError: boolean;
@@ -49,10 +62,10 @@ type FilterCriteria = {
 // Provider component
 export const ShoeProvider: React.FC<ShoeProviderProps> = ({ children }) => {
   const [filteredCriteria, setFilteredCriteria] = useState<FilterCriteria>({
-    brand: "All Products",
-    price: "all",
-    category: "all",
-    color: "all",
+    brand: "All",
+    price: "All",
+    category: "All",
+    color: "All",
     keyword: "",
   });
 
@@ -66,20 +79,19 @@ export const ShoeProvider: React.FC<ShoeProviderProps> = ({ children }) => {
         },
       }
     );
+    console.log("data fetched")
     return response.data;
   };
 
   const { data, isLoading, isError, error, fetchNextPage, hasNextPage } =
     useInfiniteQuery(["shoesData", filteredCriteria], fetchShoes, {
       getNextPageParam: (lastPage, allPages) => {
-        console.log(lastPage);
         // console.log(allPages);
         // Assuming the API provides a `hasMore` property in response
         return lastPage.hasMore ? allPages.length + 1 : undefined;
       },
     });
 
-  console.log(data);
   // Handle infinite scrolling
   useEffect(() => {
     const handleScroll = () => {
