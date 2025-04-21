@@ -2,8 +2,9 @@ import "./nav.scss";
 import { FiHeart } from "react-icons/fi";
 import { AiOutlineShoppingCart, AiOutlineUserAdd } from "react-icons/ai";
 import { useCallback, useRef, useEffect, useState } from "react";
-import { useShoeContext } from "../../contexts/shoeContext";
+import { useShoeContext } from "../../customHooks/useShoeContext.ts";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 type Prop = {
   displayMenu: boolean;
@@ -28,12 +29,14 @@ const Nav = ({ displayMenu, setDisplayMenu }: Prop) => {
     }
   }, []);
 
-  // const handleLogout = () => {
-  //   localStorage.removeItem("token");
-  //   localStorage.removeItem("user");
-  //   setUser(null);
-  //   window.location.reload(); // Refresh to reflect logout
-  // };
+  const handleLogout = async () => {
+    localStorage.removeItem("user");
+    setUser(null);
+    await axios.get("http://localhost:3000/api/user/logout", {
+      withCredentials: true
+    });
+    window.location.reload(); // Refresh to reflect logout
+  };
 
   const handleSearch = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,10 +91,10 @@ const Nav = ({ displayMenu, setDisplayMenu }: Prop) => {
                   className="profile-img"
                 />
               </button>
-              {/* <div className="dropdown-menu">
+              <div className="dropdown-menu">
                 <p>{user.firstName} {user.lastName}</p>
                 <button onClick={handleLogout}>Logout</button>
-              </div> */}
+              </div>
             </div>
           ) : (
             <button className="icon-btn" onClick={() => navigate("/login")}>

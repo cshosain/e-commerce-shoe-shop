@@ -1,6 +1,6 @@
 import Card from "../card/Card";
 import "./products.scss";
-import { useShoeContext } from "../../contexts/shoeContext";
+import { useShoeContext } from "../../customHooks/useShoeContext.ts";
 
 type Prop = {
   displayMenu: boolean;

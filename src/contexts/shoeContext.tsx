@@ -1,14 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, {
   createContext,
-  useContext,
   ReactNode,
   useEffect,
   useState,
 } from "react";
 import { useInfiniteQuery } from "react-query";
 import axios from "axios";
-// import Dummydata from "../assets/data";
 
 // Define the shape of the context data
 type ShoeContextType = {
@@ -61,6 +59,7 @@ type FilterCriteria = {
 
 // Provider component
 export const ShoeProvider: React.FC<ShoeProviderProps> = ({ children }) => {
+
   const [filteredCriteria, setFilteredCriteria] = useState<FilterCriteria>({
     brand: "All",
     price: "All",
@@ -86,7 +85,6 @@ export const ShoeProvider: React.FC<ShoeProviderProps> = ({ children }) => {
   const { data, isLoading, isError, error, fetchNextPage, hasNextPage } =
     useInfiniteQuery(["shoesData", filteredCriteria], fetchShoes, {
       getNextPageParam: (lastPage, allPages) => {
-        // console.log(allPages);
         // Assuming the API provides a `hasMore` property in response
         return lastPage.hasMore ? allPages.length + 1 : undefined;
       },
@@ -128,11 +126,4 @@ export const ShoeProvider: React.FC<ShoeProviderProps> = ({ children }) => {
   );
 };
 
-// Custom hook to use the ShoeContext
-export const useShoeContext = () => {
-  const context = useContext(ShoeContext);
-  if (context === undefined) {
-    throw new Error("useShoeContext must be used within a ShoeProvider");
-  }
-  return context;
-};
+export { ShoeContext };

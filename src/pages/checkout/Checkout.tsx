@@ -69,9 +69,8 @@ const Checkout = () => {
             if (currentStep === steps.length - 1 && selectedMethod !== "bkash") {
                 console.log("hello from checkout page")
                 try {
-                    const token = localStorage.getItem("token");
                     const response = await axios.post(
-                        "http://localhost:3000/api/generalUsers/orders",
+                        "http://localhost:3000/api/user/orders/store",
                         {
                             items: cartItems,
                             totalAmount: subTotal,
@@ -89,8 +88,9 @@ const Checkout = () => {
                             status: "Pending",
                         },
                         {
+                            withCredentials: true, // Ensures cookies are sent and stored
                             headers: {
-                                Authorization: `Bearer ${token}`,
+                                "Content-Type": "application/json",
                             },
                         }
                     );

@@ -1,4 +1,4 @@
-import { useShoeContext } from "../../../contexts/shoeContext";
+import { useShoeContext } from "../../../customHooks/useShoeContext.ts";
 import "./multipleChoice.scss";
 
 import React, { useState } from "react";

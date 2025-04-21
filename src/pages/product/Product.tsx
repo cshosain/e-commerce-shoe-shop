@@ -3,15 +3,14 @@ import { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import "./product.scss";
 import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode"; // Install with: npm install jwt-decode
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import useIsLoggedIn from "../../customHooks/useIsLoggedIn.ts"; // Import the custom hook
 
 type Product = {
   _id: string;
   availableColors: string[];
-
   availableSizes: number[];
   barnd: string;
   category: string;
@@ -19,17 +18,22 @@ type Product = {
   discount: number;
   images: string[];
   isFeatured: boolean;
-
   img: string;
   title: string;
-  ratings: { average: number, total: number };
-  reviews: { user: string, comment: string, rating: number, _id: string, createdAt: string }[];
+  ratings: { average: number; total: number };
+  reviews: {
+    user: string;
+    comment: string;
+    rating: number;
+    _id: string;
+    createdAt: string;
+  }[];
   prevPrice: number;
   newPrice: number;
   stock: number;
   updatedAt: string;
   __v: number;
-}
+};
 
 const Product = () => {
   const { id } = useParams(); // Get product ID from URL
@@ -39,7 +43,7 @@ const Product = () => {
   const [loading, setLoading] = useState(false);
   const [isAddedToCart, setIsAddedToCart] = useState(false); // Track if the item is added to the cart
   const navigate = useNavigate(); // To redirect user if not logged in
-  console.log(id)
+  const isLoggedIn = useIsLoggedIn(); // Use the custom hook to check login status
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,14 +51,12 @@ const Product = () => {
         const response = await axios.get(`http://localhost:3000/api/shoes/${id}`);
         const data = response.data;
         setProduct(data);
-        console.log(data)
-
+        console.log(data);
       } catch (error) {
         console.error("Error fetching product:", error);
       }
-    }
-    fetchData()
-
+    };
+    fetchData();
   }, [id]);
 
   const renderStars = (average: number) => {
@@ -64,42 +66,33 @@ const Product = () => {
 
     return (
       <>
-        {Array(fullStars).fill(0).map((_, i) => (
-          <span key={`full-${i}`} className="star full">★</span>
-        ))}
+        {Array(fullStars)
+          .fill(0)
+          .map((_, i) => (
+            <span key={`full-${i}`} className="star full">
+              ★
+            </span>
+          ))}
         {hasHalfStar && <span className="star half">☆</span>}
-        {Array(emptyStars).fill(0).map((_, i) => (
-          <span key={`empty-${i}`} className="star empty">☆</span>
-        ))}
+        {Array(emptyStars)
+          .fill(0)
+          .map((_, i) => (
+            <span key={`empty-${i}`} className="star empty">
+              ☆
+            </span>
+          ))}
       </>
     );
   };
 
   const handleAddToCart = async () => {
-
-
-    // ✅ Check if user is logged in (Token should be stored in localStorage)
-    const token = localStorage.getItem("token");
-    if (!token) {
+    // ✅ Check if user is logged in using the custom hook
+    if (!isLoggedIn) {
       toast.error("Please log in to add items to the cart.", {
         position: "top-center",
         autoClose: 4000,
       });
       navigate("/login"); // Redirect user to login page
-      return;
-    }
-    // ✅ Decode the token to get `userId`
-    type Dtoken = { id: string; iat: number; exp: number }
-    const decodedToken: Dtoken = jwtDecode(token);
-    console.log(decodedToken)
-    const userId = decodedToken?.id; // Assuming the payload contains { id: "USER_ID" }
-
-    if (!userId) {
-      toast.error("Invalid user session. Please log in again.", {
-        position: "top-center",
-        autoClose: 4000,
-      });
-      navigate("/login");
       return;
     }
 
@@ -113,17 +106,19 @@ const Product = () => {
     }
 
     try {
-      setLoading(true)
+      setLoading(true);
       const response = await axios.post(
-        "http://localhost:3000/api/generalUsers/cart",
+        "http://localhost:3000/api/user/cart/add",
         {
-          userId, // Use the actual user ID from token
           productId: product?._id,
           size: selectedSize,
           color: selectedColor,
         },
         {
-          headers: { Authorization: `Bearer ${token}` }, // Pass token to the backend
+          withCredentials: true, // Ensures cookies are sent and stored
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
       );
 
@@ -133,13 +128,13 @@ const Product = () => {
           autoClose: 4000,
         });
         setIsAddedToCart(true); // Mark as added to cart
-        setLoading(false)
+        setLoading(false);
       } else {
         toast.error("Error adding to cart", {
           position: "top-center",
           autoClose: 4000,
         });
-        setLoading(false)
+        setLoading(false);
       }
     } catch (error) {
       console.error("Add to cart error:", error);
@@ -147,7 +142,7 @@ const Product = () => {
         position: "top-center",
         autoClose: 4000,
       });
-      setLoading(false)
+      setLoading(false);
     }
   };
 
@@ -192,10 +187,8 @@ const Product = () => {
             </div>
           </div>
 
-
           {/* Size Selection */}
           <div className="size-heading">
-
             <h3>Size</h3>
           </div>
           <div className="size-options">
@@ -211,7 +204,11 @@ const Product = () => {
           </div>
 
           <div className="price">${product.newPrice}</div>
-          <button className="add-to-cart" onClick={isAddedToCart ? handleGoToCart : handleAddToCart} disabled={loading}>
+          <button
+            className="add-to-cart"
+            onClick={isAddedToCart ? handleGoToCart : handleAddToCart}
+            disabled={loading}
+          >
             {isAddedToCart ? "Go to Cart" : "Add to Cart"}
           </button>
         </div>

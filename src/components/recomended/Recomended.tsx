@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useShoeContext } from "../../contexts/shoeContext";
+import { useShoeContext } from "../../customHooks/useShoeContext.ts";
 import "./recomended.scss";
 
 type BtnIds = boolean[];
