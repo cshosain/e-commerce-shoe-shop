@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -6,9 +6,9 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Profile.scss";
 import { motion } from "framer-motion";
-import useIsLoggedIn from "../../customHooks/useIsLoggedIn"; // Import the custom hook
 import { ToastContainer, toast } from "react-toastify"; // Import toast
 import "react-toastify/dist/ReactToastify.css"; // Import toast styles
+import Context from "../../contexts/Context.ts";
 
 // ✅ Profile Update Validation Schema (Password is optional)
 const schema = yup.object().shape({
@@ -40,8 +40,7 @@ const Profile = () => {
     const [loading, setLoading] = useState(false);
     const [showForm, setShowForm] = useState(false); // Toggle form
     const navigate = useNavigate();
-    const isLoggedIn = useIsLoggedIn(); // Use the custom hook to check login status
-
+    const { isAuthenticated } = useContext(Context)
     // ✅ Fetch User Data
     useEffect(() => {
         const fetchUser = async () => {
@@ -59,8 +58,8 @@ const Profile = () => {
                 setUser(response.data.user);
             } catch (error) {
                 console.error("Error fetching user:", error);
-                if (!isLoggedIn) {
-                    navigate("/login"); // Redirect to login if not logged in
+                if (!isAuthenticated) {
+                    navigate("/auth"); // Redirect to login if not logged in
                     return;
                 }
 
@@ -68,7 +67,7 @@ const Profile = () => {
         };
 
         fetchUser();
-    }, [isLoggedIn, navigate]);
+    }, [isAuthenticated, navigate]);
 
     // ✅ Handle Form Submission for Profile Update
     const {

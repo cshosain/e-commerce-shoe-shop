@@ -1,10 +1,11 @@
 import "./nav.scss";
 import { FiHeart } from "react-icons/fi";
 import { AiOutlineShoppingCart, AiOutlineUserAdd } from "react-icons/ai";
-import { useCallback, useRef, useEffect, useState } from "react";
+import { useCallback, useRef, useContext } from "react";
 import { useShoeContext } from "../../customHooks/useShoeContext.ts";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Context from "../../contexts/Context.ts";
 
 type Prop = {
   displayMenu: boolean;
@@ -15,23 +16,28 @@ const Nav = ({ displayMenu, setDisplayMenu }: Prop) => {
   const { setFilteredCriteria } = useShoeContext();
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const navigate = useNavigate();
+  const { user } = useContext(Context)
+  const coppyUser = JSON.parse(JSON.stringify(user));
 
-  const [user, setUser] = useState<{
-    firstName: string;
-    lastName: string;
-    img?: string;
-  } | null>(null);
+  // const [cachedUser, setCachedUser] = useState<{
+  //   firstName: string;
+  //   lastName: string;
+  //   img?: string;
+  // } | null>(null);
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-  }, []);
+
+  const localStoreUser = localStorage.getItem("user");
+  let parsedUser;
+  if (localStoreUser) {
+    parsedUser = JSON.parse(localStoreUser);
+    // setCachedUser(parsedUser);
+  }
+
+
 
   const handleLogout = async () => {
     localStorage.removeItem("user");
-    setUser(null);
+    // setUser(null);
     await axios.get("http://localhost:3000/api/user/logout", {
       withCredentials: true
     });
@@ -82,22 +88,22 @@ const Nav = ({ displayMenu, setDisplayMenu }: Prop) => {
             <AiOutlineShoppingCart onClick={() => navigate("/cart")} />
           </button>
 
-          {user ? (
+          {user || parsedUser ? (
             <div className="profile-dropdown">
               <button className="profile-btn" onClick={() => navigate("/profile")}>
                 <img
-                  src={user.img || "/assets/noavatar.png"}
+                  src={coppyUser?.img || parsedUser?.img || "/assets/noavatar.png"}
                   alt="Profile"
                   className="profile-img"
                 />
               </button>
               <div className="dropdown-menu">
-                <p>{user.firstName} {user.lastName}</p>
+                <p>{coppyUser?.firstName || parsedUser?.firstName} {coppyUser?.lastName || parsedUser?.lastName}</p>
                 <button onClick={handleLogout}>Logout</button>
               </div>
             </div>
           ) : (
-            <button className="icon-btn" onClick={() => navigate("/login")}>
+            <button className="icon-btn" onClick={() => navigate("/auth")}>
               <AiOutlineUserAdd />
             </button>
           )}

@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import debounce from "lodash.debounce";
 import axios from "axios";
 import "./cart.scss";
 import { useNavigate } from "react-router-dom";
@@ -19,7 +18,7 @@ const Cart = () => {
     const { cartItems, setCartItems, loading, totalPrice } = useFetchCart();
     const [loadingItemId, setLoadingItemId] = useState<string | null>(null);
     const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
-    const [debounceTimers, setDebounceTimers] = useState<{ [key: string]: NodeJS.Timeout }>({});
+    const [debounceTimers, setDebounceTimers] = useState<{ [key: string]: ReturnType<typeof setTimeout> }>({});
 
     // Initialize quantities state after cartItems are fetched
     useEffect(() => {
@@ -30,6 +29,13 @@ const Cart = () => {
         setQuantities(initialQuantities);
     }, [cartItems]);
 
+    const user = localStorage.getItem("user");
+    if (!user) {
+        toast.error("Please login to view your cart");
+        setTimeout(() => {
+            navigate("/auth");
+        }, 4000);
+    }
     const handleQuantityChange = (cartId: string, newQuantity: number) => {
         // Update the local state instantly
         setQuantities((prev) => ({

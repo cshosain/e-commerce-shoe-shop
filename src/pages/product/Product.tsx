@@ -1,12 +1,12 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import "./product.scss";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import useIsLoggedIn from "../../customHooks/useIsLoggedIn.ts"; // Import the custom hook
+import Context from "../../contexts/Context.ts";
 
 type Product = {
   _id: string;
@@ -43,7 +43,7 @@ const Product = () => {
   const [loading, setLoading] = useState(false);
   const [isAddedToCart, setIsAddedToCart] = useState(false); // Track if the item is added to the cart
   const navigate = useNavigate(); // To redirect user if not logged in
-  const isLoggedIn = useIsLoggedIn(); // Use the custom hook to check login status
+  const { isAuthenticated } = useContext(Context); // Get the authentication context
 
   useEffect(() => {
     const fetchData = async () => {
@@ -87,7 +87,7 @@ const Product = () => {
 
   const handleAddToCart = async () => {
     // ✅ Check if user is logged in using the custom hook
-    if (!isLoggedIn) {
+    if (!isAuthenticated) {
       toast.error("Please log in to add items to the cart.", {
         position: "top-center",
         autoClose: 4000,
