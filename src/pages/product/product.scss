@@ -41,13 +41,37 @@
       justify-content: center;
       align-items: center;
       flex: 1.5;
-    }
+      flex-direction: column;
+      gap: 30px;
 
-    .product-image img {
-      width: 400px;
-      border-radius: 10px;
-    }
+      .main-image {
+        width: 400px;
+        border-radius: 10px;
+      }
+      .product-other-images {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        margin-top: 10px;
+        img {
+          width: 80px;
+          height: 80px;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: 0.3s;
 
+          &:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+          }
+        }
+        .selected-image {
+          border: 2px solid #ff6b6b;
+          box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+      }
+    }
     .product-details {
       min-width: 340px;
       max-width: 400px;
@@ -218,6 +242,49 @@
         }
         &:disabled {
           cursor: not-allowed;
+        }
+      }
+      .reviews-section {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin-top: 20px;
+        font-size: 16px;
+        color: #555;
+
+        .review {
+          display: flex;
+          align-items: flex-start;
+          gap: 5px;
+          cursor: pointer;
+          transition: 0.3s;
+          flex-direction: column;
+          padding: 5px;
+          background-color: #ffffd3;
+          text-align: start;
+          width: 100%;
+
+          &:hover {
+            color: #ff6b6b;
+          }
+          .review-header {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            .review-rating {
+              font-size: 20px;
+              color: #f4b400;
+            }
+            .review-user {
+              font-size: 14px;
+              color: #777;
+            }
+          }
         }
       }
     }

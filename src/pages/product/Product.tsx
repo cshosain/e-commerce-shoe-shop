@@ -20,6 +20,7 @@ type Product = {
   isFeatured: boolean;
   img: string;
   title: string;
+  description: string;
   ratings: { average: number; total: number };
   reviews: {
     user: string;
@@ -42,9 +43,11 @@ const Product = () => {
   const [selectedColor, setSelectedColor] = useState("");
   const [loading, setLoading] = useState(false);
   const [isAddedToCart, setIsAddedToCart] = useState(false); // Track if the item is added to the cart
-  const navigate = useNavigate(); // To redirect user if not logged in
+  const navigate = useNavigate(); // Will be use to redirect user if not logged in
   const { isAuthenticated } = useContext(Context); // Get the authentication context
-
+  const [selectedImage, setSelectedImage] = useState<string | null>(null); // Track the selected image
+  //default image for testing
+  const defaultImage = "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/2430c836-4346-46ce-9691-7d1480d3683e/AIR+MAX+DN8+%28GS%29.png";
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -92,7 +95,7 @@ const Product = () => {
         position: "top-center",
         autoClose: 4000,
       });
-      navigate("/login"); // Redirect user to login page
+      navigate("/auth"); // Redirect user to login page
       return;
     }
 
@@ -160,7 +163,12 @@ const Product = () => {
 
       <div className="product-container">
         <div className="product-image">
-          <img src={product.img} alt={product.title} />
+          <img className="main-image" src={selectedImage || product.img} alt={product.title} />
+          <div className="product-other-images">
+            {product.images.map((image, index) => (
+              <img key={index} src={image || defaultImage} onMouseEnter={() => setSelectedImage(image)} className={selectedImage === image ? "selected-image" : ""} alt={`Product Image ${index + 1}`} />
+            ))}
+          </div>
         </div>
 
         <div className="product-details">
@@ -168,7 +176,7 @@ const Product = () => {
           <div className="rating">
             {renderStars(product.ratings?.average)} ({product.reviews?.length} reviews)
           </div>
-          <p className="description">{product.title}</p>
+          <p className="description">{product.description}</p>
 
           {/* Color Selection */}
           <div className="color-section">
@@ -211,6 +219,26 @@ const Product = () => {
           >
             {isAddedToCart ? "Go to Cart" : "Add to Cart"}
           </button>
+          {/* {product reviews dropdown section }  */}
+          <div className="reviews-section">
+            <h3>Reviews <div className="rating">
+              {renderStars(product.ratings?.average)} ({product.reviews?.length} reviews)
+            </div></h3>
+            {product.reviews.length > 0 ? (
+              product.reviews.map((review) => (
+                <div key={review._id} className="review">
+                  <div className="review-header">
+                    <p className="review-user">{review.user}</p>
+                    <div className="review-rating">{renderStars(review.rating)}</div>
+                    <p className="review-date">{new Date(review.createdAt).toLocaleDateString()}</p>
+                  </div>
+                  <p>{review.comment}</p>
+                </div>
+              ))
+            ) : (
+              <p>No reviews yet.</p>
+            )}
+          </div>
         </div>
       </div>
       <ToastContainer />

@@ -51,7 +51,7 @@ const Register = () => {
                     />
                     <input
                         type="text"
-                        placeholder="Name"
+                        placeholder="Last Name"
                         required
                         {...register("lastName")}
                     />
