@@ -34,7 +34,7 @@ const Signup = () => {
     const onSubmit = async (data: object) => {
         setLoading(true);
         try {
-            const response = await axios.post("http://localhost:3000/api/generalUsers/signup", data);
+            const response = await axios.post("http://localhost:3000/api/user/signup", data);
             if (response.data.success) {
                 alert("Signup successful!");
                 navigate("/login"); // Redirect to login page after signup

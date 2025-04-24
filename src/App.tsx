@@ -15,6 +15,8 @@ import Checkout from "./pages/checkout/Checkout";
 import Error from "./pages/errors/Error";
 import Success from "./pages/success/Success";
 import { ToastContainer } from "react-toastify";
+import "@fortawesome/fontawesome-free/css/all.min.css"; // Import Font Awesome
+import Footer from "./pages/footer/Footer.tsx";
 
 function App() {
   const queryClient = new QueryClient();
@@ -43,6 +45,7 @@ function App() {
             {/* </Route> */}
 
           </Routes>
+          <Footer />
           <ToastContainer theme="colored" />
         </BrowserRouter>
       </ShoeProvider>

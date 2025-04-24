@@ -89,8 +89,9 @@ const Product = () => {
   };
 
   const handleAddToCart = async () => {
-    // ✅ Check if user is logged in using the custom hook
-    if (!isAuthenticated) {
+    // ✅ Check if user is logged in using local storage
+    const user = localStorage.getItem("user");
+    if (!isAuthenticated && !user) {
       toast.error("Please log in to add items to the cart.", {
         position: "top-center",
         autoClose: 4000,
@@ -221,7 +222,7 @@ const Product = () => {
           </button>
           {/* {product reviews dropdown section }  */}
           <div className="reviews-section">
-            <h3>Reviews <div className="rating">
+            <h3><div className="rating">
               {renderStars(product.ratings?.average)} ({product.reviews?.length} reviews)
             </div></h3>
             {product.reviews.length > 0 ? (
@@ -238,6 +239,7 @@ const Product = () => {
             ) : (
               <p>No reviews yet.</p>
             )}
+            {product.reviews.length > 2 && <button>Sow More</button>}
           </div>
         </div>
       </div>
