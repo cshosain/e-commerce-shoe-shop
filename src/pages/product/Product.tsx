@@ -7,6 +7,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Context from "../../contexts/Context.ts";
+import renderStars from "../../utilities/renderStars.tsx";
 
 type Product = {
   _id: string;
@@ -62,31 +63,6 @@ const Product = () => {
     fetchData();
   }, [id]);
 
-  const renderStars = (average: number) => {
-    const fullStars = Math.floor(average); // Number of full stars
-    const hasHalfStar = average % 1 >= 0.5; // Check if there's a half star
-    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); // Remaining empty stars
-
-    return (
-      <>
-        {Array(fullStars)
-          .fill(0)
-          .map((_, i) => (
-            <span key={`full-${i}`} className="star full">
-              ★
-            </span>
-          ))}
-        {hasHalfStar && <span className="star half">☆</span>}
-        {Array(emptyStars)
-          .fill(0)
-          .map((_, i) => (
-            <span key={`empty-${i}`} className="star empty">
-              ☆
-            </span>
-          ))}
-      </>
-    );
-  };
 
   const handleAddToCart = async () => {
     // ✅ Check if user is logged in using local storage

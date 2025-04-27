@@ -47,16 +47,16 @@ const Footer = () => {
                 <div className="footer-section social">
                     <h3>Follow Us</h3>
                     <div className="social-icons">
-                        <a href="https://facebook.com" target="_blank" rel="noreferrer">
+                        <a href="https://facebook.com/cshosain" target="_blank" rel="noreferrer">
                             <i className="fab fa-facebook-f"></i>
                         </a>
-                        <a href="https://twitter.com" target="_blank" rel="noreferrer">
-                            <i className="fab fa-twitter"></i>
+                        <a href="https://x.com" target="_blank" rel="noreferrer">
+                            <i className="fa-brands fa-x-twitter"></i>
                         </a>
                         <a href="https://instagram.com" target="_blank" rel="noreferrer">
                             <i className="fab fa-instagram"></i>
                         </a>
-                        <a href="https://linkedin.com" target="_blank" rel="noreferrer">
+                        <a href="https://linkedin.com/in/cshosain" target="_blank" rel="noreferrer">
                             <i className="fab fa-linkedin-in"></i>
                         </a>
                     </div>
@@ -65,7 +65,7 @@ const Footer = () => {
 
             {/* Footer Bottom */}
             <div className="footer-bottom">
-                <p>&copy; {new Date().getFullYear()} ShoeShop. All Rights Reserved.</p>
+                <p>&copy; {new Date().getFullYear()} ShoeShop-Hosain. All Rights Reserved.</p>
             </div>
         </footer>
     );
