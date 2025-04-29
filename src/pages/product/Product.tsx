@@ -22,7 +22,7 @@ type Product = {
   img: string;
   title: string;
   description: string;
-  ratings: { average: number; total: number };
+  ratings: { averageRating: number; noOfRatings: number };
   reviews: {
     user: string;
     comment: string;
@@ -151,7 +151,7 @@ const Product = () => {
         <div className="product-details">
           <h1>{product.title}</h1>
           <div className="rating">
-            {renderStars(product.ratings?.average)} ({product.reviews?.length} reviews)
+            {renderStars(product.ratings?.averageRating)} ({product.ratings?.noOfRatings} reviews)
           </div>
           <p className="description">{product.description}</p>
 
@@ -199,7 +199,7 @@ const Product = () => {
           {/* {product reviews dropdown section }  */}
           <div className="reviews-section">
             <h3><div className="rating">
-              {renderStars(product.ratings?.average)} ({product.reviews?.length} reviews)
+              {renderStars(product.ratings?.averageRating)} ({product.reviews?.length} reviews)
             </div></h3>
             {product.reviews.length > 0 ? (
               product.reviews.map((review) => (

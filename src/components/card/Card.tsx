@@ -7,16 +7,15 @@ type Props = {
   productId: string;
   img: string;
   title: string;
-  ratings: { average: number, total: number };
-  reviews: { user: string; comment: string; rating: number; _id: string; createdAt: string }[];
+  ratings: { averageRating: number, noOfRatings: number };
   prevPrice: number;
   newPrice: number;
 };
 
-const Card = ({ productId, img, title, ratings, reviews, prevPrice, newPrice }: Props) => {
+const Card = ({ productId, img, title, ratings, prevPrice, newPrice }: Props) => {
   const navigate = useNavigate(); // ✅ Initialize navigate function
 
-  const stars = Math.round(ratings.average);
+  const stars = Math.round(ratings.averageRating);
   const x = [];
   for (let i = 0; i < stars; i++) {
     x.push(i);
@@ -37,7 +36,7 @@ const Card = ({ productId, img, title, ratings, reviews, prevPrice, newPrice }: 
           {x.map((i) => (
             <AiFillStar key={i} className="rating-star" />
           ))}
-          <span className="total-reviews">({reviews.length})</span>
+          <span className="total-reviews">({ratings.averageRating})</span>
         </section>
         <section className="card-price">
           <div className="price">
