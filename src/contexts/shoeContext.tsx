@@ -78,8 +78,6 @@ export const ShoeProvider: React.FC<ShoeProviderProps> = ({ children }) => {
         },
       }
     );
-    console.log("data fetched")
-    console.log('data', response.data)
     return response.data;
   };
 

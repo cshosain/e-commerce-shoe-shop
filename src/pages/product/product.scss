@@ -154,24 +154,24 @@
             cursor: pointer;
             border: none;
 
-            &.Gray {
+            &.gray {
               background: gray;
             }
-            &.White {
+            &.white {
               background: white;
               border: 2px solid black;
             }
-            &.Red {
+            &.red {
               background: red;
             }
-            &.Blue {
+            &.blue {
               background: blue;
             }
-            &.Black {
+            &.black {
               background: black;
               color: white;
             }
-            &.Brown {
+            &.brown {
               background: brown;
               color: white;
             }
@@ -256,6 +256,11 @@
         margin-top: 20px;
         font-size: 16px;
         color: #555;
+        .rating {
+          span {
+            color: #2b2b2b;
+          }
+        }
 
         .review {
           display: flex;
@@ -279,7 +284,7 @@
             justify-content: space-between;
             width: 100%;
             .review-rating {
-              font-size: 20px;
+              font-size: 11px;
               color: #f4b400;
             }
             .review-user {

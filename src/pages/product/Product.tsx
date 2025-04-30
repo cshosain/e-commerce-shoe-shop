@@ -22,14 +22,8 @@ type Product = {
   img: string;
   title: string;
   description: string;
-  ratings: { averageRating: number; noOfRatings: number };
-  reviews: {
-    user: string;
-    comment: string;
-    rating: number;
-    _id: string;
-    createdAt: string;
-  }[];
+  ratings: { averageRating: number; noOfRatings: number; ratingsBreakdown: { star: number; count: number }[]; averageCategoryRatings: { [key: string]: number } };
+  reviews: { _id: string; userName: string; userImg: string; rating: number; comment: string; images?: string[]; createdAt: string }[];
   prevPrice: number;
   newPrice: number;
   stock: number;
@@ -199,13 +193,13 @@ const Product = () => {
           {/* {product reviews dropdown section }  */}
           <div className="reviews-section">
             <h3><div className="rating">
-              {renderStars(product.ratings?.averageRating)} ({product.reviews?.length} reviews)
+              {renderStars(product.ratings?.averageRating)} <span>({product.reviews?.length} reviews)</span>
             </div></h3>
             {product.reviews.length > 0 ? (
               product.reviews.map((review) => (
                 <div key={review._id} className="review">
                   <div className="review-header">
-                    <p className="review-user">{review.user}</p>
+                    <p className="review-user">{review.userName}</p>
                     <div className="review-rating">{renderStars(review.rating)}</div>
                     <p className="review-date">{new Date(review.createdAt).toLocaleDateString()}</p>
                   </div>
@@ -215,7 +209,7 @@ const Product = () => {
             ) : (
               <p>No reviews yet.</p>
             )}
-            {product.reviews.length > 2 && <button>Sow More</button>}
+            {product.reviews.length > 0 && <button onClick={() => navigate(`/${product._id}/ratings-reviews`)}>Sow More</button>}
           </div>
         </div>
       </div>

@@ -44,7 +44,7 @@ function App() {
             <Route element={<Cart />} path="/cart" />
             <Route element={<Profile />} path="/profile" />
             {/* </Route> */}
-            <Route path="/reviews" element={<Review />} />
+            <Route path="/:productId/ratings-reviews" element={<Review />} />
 
           </Routes>
           <Footer />
