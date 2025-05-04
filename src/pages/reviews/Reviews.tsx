@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom"; // assuming react-router-dom
 import axios from "axios";
 import "./reviews.scss";
 import renderStars from "../../utilities/renderStars";
+import AddReview from "../../components/addReview/AddReview";
+import { defaultAvatar } from "../../assets/default";
 
 type ReviewData = {
     ratings: { averageRating: number; noOfRatings: number; ratingsBreakdown: { star: number; count: number }[]; averageCategoryRatings: { [key: string]: number } };
@@ -14,6 +16,9 @@ const Review: React.FC = () => {
     const { productId } = useParams<{ productId: string }>();
     const [reviewData, setReviewData] = useState<ReviewData | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const [isReviewAdded, setIsReviewAdded] = useState<boolean>(false);
 
     useEffect(() => {
         const fetchReviews = async () => {
@@ -31,6 +36,33 @@ const Review: React.FC = () => {
             fetchReviews();
         }
     }, [productId]);
+    if (isReviewAdded) {
+        // Clear any existing timeout before setting a new one
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+        }
+        // Set a new timeout
+        timeoutRef.current = setTimeout(() => {
+            window.location.reload();
+        }, 2000);
+
+    }
+
+    if (isOpen) {
+        document.body.classList.add("stop-scrolling");
+    } else {
+        document.body.classList.remove("stop-scrolling");
+    }
+
+    const handleClose = (e?: React.MouseEvent<HTMLElement>) => {
+        if (e) {
+            e.stopPropagation();
+        }
+        setIsOpen((prev) => !prev);
+    }
+    const handIsReviewAdded = () => {
+        setIsReviewAdded((prev) => !prev);
+    }
 
     if (!reviewData) return <div className="review-error">No reviews found.</div>;
     if (loading) return <div className="review-loading">Loading...</div>;
@@ -110,6 +142,8 @@ const Review: React.FC = () => {
 
             <div className="review-footer">
                 <a href="#read-all">Read all reviews</a>
+                <button onClick={handleClose} className="write-review-btn">Write a review</button>
+                {isOpen && (<AddReview productId={productId} isOpen={isOpen} handleClose={handleClose} userImage={defaultAvatar} handleIsReviewAdded={handIsReviewAdded} />)}
             </div>
         </div>
     );
