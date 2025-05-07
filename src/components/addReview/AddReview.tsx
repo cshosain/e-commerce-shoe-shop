@@ -1,4 +1,4 @@
-import { useState, useEffect, ChangeEvent } from "react";
+import { useState, ChangeEvent } from "react";
 import "./addReview.scss";
 import axios from "axios";
 import imageCompression from "browser-image-compression";
@@ -25,6 +25,14 @@ const AddReview = ({
     const [message, setMessage] = useState<string>("");
     const [images, setImages] = useState<File[]>([]);
     const [previewUrls, setPreviewUrls] = useState<string[]>([]);
+    const [isCategoryReview, setIsCategoryReview] = useState<boolean>(false);
+    const [categoryRatings, setCategoryRatings] = useState({
+        comfort: 1,
+        durability: 1,
+        fit: 1,
+        style: 1,
+        valueForMoney: 1,
+    });
 
     const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
@@ -63,6 +71,13 @@ const AddReview = ({
         return base64Images;
     };
 
+    const handleCategoryRatingChange = (category: string, value: number) => {
+        setCategoryRatings((prev) => ({
+            ...prev,
+            [category]: value,
+        }));
+    };
+
     const handleSubmit = async () => {
         if (!rating || !message.trim()) {
             toast.error("Please provide a rating and message.");
@@ -77,15 +92,16 @@ const AddReview = ({
         try {
             const base64Images = await convertImagesToBase64(images);
 
-            const payload = {
+            // Submit general review
+            const reviewPayload = {
                 comment: message,
                 rating,
                 images: base64Images,
             };
 
-            const response = await axios.post(
+            await axios.post(
                 `http://localhost:3000/api/shoes/${productId}/review`,
-                payload,
+                reviewPayload,
                 {
                     withCredentials: true,
                     headers: {
@@ -94,14 +110,35 @@ const AddReview = ({
                 }
             );
 
+            // Submit category ratings if enabled
+            if (isCategoryReview) {
+                await axios.post(
+                    `http://localhost:3000/api/shoes/${productId}/category-rating`,
+                    categoryRatings,
+                    {
+                        withCredentials: true,
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
+            }
+
             toast.success("Review submitted successfully!");
             handleClose();
             setRating(0);
             setMessage("");
             setImages([]);
             setPreviewUrls([]);
+            setIsCategoryReview(false);
+            setCategoryRatings({
+                comfort: 0,
+                durability: 0,
+                fit: 0,
+                style: 0,
+                valueForMoney: 0,
+            });
             handleIsReviewAdded();
-
         } catch (error) {
             console.error("Error submitting review:", error);
             toast.error("Failed to submit review. Please try again.");
@@ -148,6 +185,41 @@ const AddReview = ({
                     <div className="image-preview-gallery">
                         {previewUrls.map((url, index) => (
                             <img key={index} src={url} alt={`Preview ${index}`} />
+                        ))}
+                    </div>
+                )}
+
+                <div className="category-review">
+                    <label>
+                        <input
+                            type="checkbox"
+                            checked={isCategoryReview}
+                            onChange={(e) => setIsCategoryReview(e.target.checked)}
+                        />
+                        Add category ratings
+                    </label>
+                </div>
+
+                {isCategoryReview && (
+                    <div className="category-ratings-section">
+                        {["comfort", "durability", "fit", "style", "valueForMoney"].map((category) => (
+                            <div key={category} className="category-rating">
+                                <label>{category.charAt(0).toUpperCase() + category.slice(1)}:</label>
+                                <div className="slider-container">
+                                    <input
+                                        type="range"
+                                        min="1"
+                                        max="5"
+                                        value={categoryRatings[category as keyof typeof categoryRatings]}
+                                        onChange={(e) =>
+                                            handleCategoryRatingChange(category, Number(e.target.value))
+                                        }
+                                    />
+                                    <span className="slider-value">
+                                        {categoryRatings[category as keyof typeof categoryRatings]}
+                                    </span>
+                                </div>
+                            </div>
                         ))}
                     </div>
                 )}
