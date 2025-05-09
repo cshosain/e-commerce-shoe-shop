@@ -1,0 +1,53 @@
+.image-viewer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8); /* Dark overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.image-viewer-content {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  .image-viewer-img {
+    min-width: 450px;
+    max-width: 450px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  }
+
+  .arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    user-select: none;
+    height: 50px;
+    width: 50px;
+    padding-bottom: 3px;
+
+    &:hover {
+      border-radius: 4px;
+      background-color: gray;
+    }
+
+    &.left-arrow {
+      left: -70px;
+    }
+
+    &.right-arrow {
+      right: -70px;
+    }
+  }
+}

@@ -5,9 +5,10 @@ import "./reviews.scss";
 import renderStars from "../../utilities/renderStars";
 import AddReview from "../../components/addReview/AddReview";
 import { defaultAvatar } from "../../assets/default";
+import ImageViewer from "../../components/imageViewer/ImageViewer";
 
 type ReviewData = {
-    ratings: { averageRating: number; noOfRatings: number; ratingsBreakdown: { star: number; count: number }[]; averageCategoryRatings: { [key: string]: number } };
+    ratings: { averageRating: number; noOfRatings: number; ratingsBreakdown: { star: number; count: number }[]; categoryRatings: { userName: string; comfort: number; style: number; fit: number; durability: number; valueForMoney: number; _id: string }[]; averageCategoryRatings: { [key: string]: number } };
     reviews: { _id: string; userName: string; userImg: string; rating: number; comment: string; images?: string[]; createdAt: string }[];
 }
 
@@ -20,11 +21,17 @@ const Review: React.FC = () => {
     const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const [isReviewAdded, setIsReviewAdded] = useState<boolean>(false);
 
+    // State for ImageViewer
+    const [isViewerOpen, setIsViewerOpen] = useState<boolean>(false);
+    const [viewerImages, setViewerImages] = useState<string[]>([]);
+    const [viewerIndex, setViewerIndex] = useState<number>(0);
+
     useEffect(() => {
         const fetchReviews = async () => {
             try {
                 const res = await axios.get(`http://localhost:3000/api/shoes/${productId}/ratings-reviews`);
                 setReviewData(res.data.data);
+                console.log(res.data.data);
             } catch (error) {
                 console.error("Failed to fetch reviews", error);
             } finally {
@@ -63,6 +70,31 @@ const Review: React.FC = () => {
     const handIsReviewAdded = () => {
         setIsReviewAdded((prev) => !prev);
     }
+
+    const handleImageClick = (images: string[], index: number) => {
+        setViewerImages(images);
+        setViewerIndex(index);
+        setIsViewerOpen(true);
+        console.log(images, index);
+    };
+
+    const handleCloseViewer = () => {
+        setIsViewerOpen(false);
+    };
+
+    const { reviews, ratings } = reviewData || {};
+    // Map through reviews and add category ratings to each review
+    // This assumes that each review has a corresponding category rating based on userName
+    const reviewsWithCategoryRatings = reviews?.map(review => {
+        const matchedCategoryRating = ratings?.categoryRatings.find(
+            catRating => catRating.userName === review.userName
+        );
+
+        return {
+            ...review,
+            categoryRating: matchedCategoryRating || null, // If not found, null
+        };
+    });
 
     if (!reviewData) return <div className="review-error">No reviews found.</div>;
     if (loading) return <div className="review-loading">Loading...</div>;
@@ -112,7 +144,7 @@ const Review: React.FC = () => {
             </div>
 
             <div className="reviews-list">
-                {reviewData.reviews.map((review) => (
+                {reviewsWithCategoryRatings?.map((review) => (
                     <div key={review._id} className="review-item">
                         <div className="review-header">
                             <div className="review-user">
@@ -125,26 +157,60 @@ const Review: React.FC = () => {
                             </div>
                             <div className="review-rating"><span >{review.rating}</span>{renderStars(review.rating)}</div>
                         </div>
-                        <p className="review-comment">{review.comment}</p>
-                        {review.images && (
-                            <div className="review-images">
-                                {review.images.map((img, index) => (
-                                    <img key={index} src={img} alt="Review" />
-                                ))}
+                        <div className="review-content">
+                            <div className="review-text">
+                                <p className="review-comment">{review.comment}</p>
+                                {review.images && (
+                                    <div className="review-images">
+                                        {review.images.map((img, index) => (
+                                            <img key={index} src={img} alt="Review" onClick={() =>
+                                                handleImageClick(review.images!, index)
+                                            } // Open ImageViewer
+                                                className="review-thumbnail" />
+                                        ))}
+                                    </div>
+                                )}
+                                <div className="review-date">
+                                    {new Date(review.createdAt).toLocaleDateString()}
+                                </div>
                             </div>
-                        )}
-                        <div className="review-date">
-                            {new Date(review.createdAt).toLocaleDateString()}
+                            <div className="review-category-ratings">
+                                {review.categoryRating &&
+                                    Object.entries(review.categoryRating).map(([key, value]) => {
+                                        if (key === "_id" || key === "userName") return null; // Skip _id and userName
+                                        const percentage = (typeof value === "number" ? (value / 5) * 100 : 0); // Calculate percentage
+                                        return (
+                                            <div key={key} className="category-rating-item">
+                                                <span className="category-key">
+                                                    {key.replace(/^\w/, (c) => c.toUpperCase())}:
+                                                </span>
+                                                <div className="progress-bar-container">
+                                                    <div
+                                                        className="progress-bar-fill"
+                                                        style={{ width: `${percentage}%` }}
+                                                    ></div>
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                            </div>
                         </div>
                     </div>
                 ))}
             </div>
 
             <div className="review-footer">
-                <a href="#read-all">Read all reviews</a>
                 <button onClick={handleClose} className="write-review-btn">Write a review</button>
                 {isOpen && (<AddReview productId={productId} isOpen={isOpen} handleClose={handleClose} userImage={defaultAvatar} handleIsReviewAdded={handIsReviewAdded} />)}
             </div>
+
+            {isViewerOpen && (
+                <ImageViewer
+                    images={viewerImages}
+                    initialIndex={viewerIndex}
+                    onClose={handleCloseViewer}
+                />
+            )}
         </div>
     );
 };
