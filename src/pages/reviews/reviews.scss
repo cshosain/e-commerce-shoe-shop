@@ -180,12 +180,7 @@
 
           .progress-bar-fill {
             height: 100%;
-            background: linear-gradient(
-              to right,
-              #d5d5d500,
-              rgb(114 114 114 / 64%),
-              #747474
-            );
+            background: #646464;
             border-radius: 5px;
             transition: width 0.3s ease;
           }

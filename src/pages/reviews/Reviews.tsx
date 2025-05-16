@@ -83,18 +83,16 @@ const Review: React.FC = () => {
     };
 
     const { reviews, ratings } = reviewData || {};
-    // Map through reviews and add category ratings to each review
-    // This assumes that each review has a corresponding category rating based on userName
-    const reviewsWithCategoryRatings = reviews?.map(review => {
-        const matchedCategoryRating = ratings?.categoryRatings.find(
-            catRating => catRating.userName === review.userName
-        );
+    // Create a map for category ratings using userName as the key
+    // Find corresponding category rating for each review complexity = O(n+m) where n is the number of reviews and m is the number of category ratings
+    const categoryRatingsMap = new Map(
+        ratings?.categoryRatings.map((catRating) => [catRating.userName, catRating])
+    );
 
-        return {
-            ...review,
-            categoryRating: matchedCategoryRating || null, // If not found, null
-        };
-    });
+    const reviewsWithCategoryRatings = reviews?.map((review) => ({
+        ...review,
+        categoryRating: categoryRatingsMap.get(review.userName) || null,
+    }));
 
     if (!reviewData) return <div className="review-error">No reviews found.</div>;
     if (loading) return <div className="review-loading">Loading...</div>;

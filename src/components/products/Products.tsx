@@ -2,26 +2,27 @@ import Card from "../card/Card";
 import "./products.scss";
 import { useShoeContext } from "../../customHooks/useShoeContext.ts";
 
-type Prop = {
-  displayMenu: boolean;
-};
-const Products = ({ displayMenu }: Prop) => {
+const Products = () => {
   const { shoes, isLoading, isError, error } = useShoeContext();
+  console.log(shoes)
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
+  if (isError) {
+    return <p>{error.message}</p>
+  }
+  if (!shoes.length && !isLoading) {
+    return <p>No Item Found!</p>
+  }
 
   return (
     <div
-      className={
-        displayMenu
-          ? "outer-products outer-products-invisible"
-          : "outer-products"
+      className={"outer-products"
       }
     >
-      <div className={displayMenu ? "products products-invisible" : "products"}>
-        {isLoading && <h1>Loading...</h1>}
-        {isError && <p>{error.message}</p>}
-        {!shoes.length && !isLoading ? <p>No Item Found!</p> : ""}
+      <div className={"products"}>
         {shoes?.map((singleShoe) => (
-          <Card key={singleShoe._id} img={singleShoe.img} ratings={singleShoe.ratings} reviews={singleShoe.reviews} productId={singleShoe._id} title={singleShoe.title} prevPrice={singleShoe.prevPrice} newPrice={singleShoe.newPrice} />
+          <Card key={singleShoe._id} img={singleShoe.img} ratings={singleShoe.ratings} productId={singleShoe._id} title={singleShoe.title} prevPrice={singleShoe.prevPrice} newPrice={singleShoe.newPrice} />
         ))}
       </div>
     </div>

@@ -209,7 +209,7 @@ const Product = () => {
             ) : (
               <p>No reviews yet.</p>
             )}
-            {product.reviews.length > 0 && <button onClick={() => navigate(`/${product._id}/ratings-reviews`)}>Sow More</button>}
+            {product.reviews.length > 0 && <button id="showMoreBtn" onClick={() => navigate(`/${product._id}/ratings-reviews`)}>Show More</button>}
           </div>
         </div>
       </div>

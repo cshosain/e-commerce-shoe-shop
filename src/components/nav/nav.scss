@@ -54,7 +54,9 @@
     .search-container {
       flex: 1;
       display: flex;
-      // justify-content: center;
+      @include md {
+        justify-content: center;
+      }
 
       input {
         width: 250px;

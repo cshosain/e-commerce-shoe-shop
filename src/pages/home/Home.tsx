@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Nav from "../../components/nav/Nav";
 import Products from "../../components/products/Products";
 import Recomended from "../../components/recomended/Recomended";
@@ -8,17 +8,31 @@ import "./home.scss";
 const Home = () => {
   const [displayMenu, setDisplayMenu] = useState<boolean>(false);
 
+  useEffect(() => {
+    if (displayMenu) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [displayMenu]);
+
   return (
     <div className="home">
-      <section
-        className={!displayMenu ? "selcetion selcetion-active" : "selcetion"}
-      >
-        <Sidebar />
-      </section>
-      <section className="view">
+      <div onClick={() => setDisplayMenu(false)} className={displayMenu ? "sidebar-overlay" : ""}>
+        <section
+          className={!displayMenu ? "selcetion selcetion-active" : "selcetion"}
+          onClick={e => e.stopPropagation()}
+        >
+          <Sidebar />
+        </section>
+      </div>
+      <section className={!displayMenu ? "view view-active" : "view"}>
         <Nav displayMenu={displayMenu} setDisplayMenu={setDisplayMenu} />
-        <Recomended displayMenu={displayMenu} />
-        <Products displayMenu={displayMenu} />
+        <Recomended />
+        <Products />
       </section>
     </div>
   );

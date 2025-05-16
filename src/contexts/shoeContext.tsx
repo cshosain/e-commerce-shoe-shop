@@ -26,8 +26,9 @@ type ShoeContextType = {
 
     img: string;
     title: string;
-    ratings: { average: number, total: number };
-    reviews: { user: string, comment: string, rating: number, _id: string, createdAt: string }[];
+    ratings: {
+      averageRating: number, noOfRatings: number
+    };
     prevPrice: number;
     newPrice: number;
     stock: number;

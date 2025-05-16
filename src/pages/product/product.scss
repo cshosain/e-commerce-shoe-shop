@@ -293,6 +293,20 @@
             }
           }
         }
+        #showMoreBtn {
+          background: #6c5ce7;
+          color: white;
+          border: none;
+          padding: 10px 15px;
+          font-size: 16px;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: 0.3s;
+
+          &:hover {
+            background: #5b4dc2;
+          }
+        }
       }
     }
   }
