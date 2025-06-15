@@ -30,9 +30,11 @@ const PaymentOptions = (props: Props) => {
                 </div>
                 <div
                     className={`payment-option ${selectedMethod === "other" ? "selected" : ""}`}
-                    onClick={() => handlePaymentSelection("other")}
+                // onClick={() => handlePaymentSelection("other")}
                 >
                     Other Methods
+                    <span> (comming soon)</span>
+
                 </div>
             </div>
         </div>

@@ -154,7 +154,7 @@ const Checkout = () => {
 
                 <div className="checkout-buttons next-btn">
                     {currentStep > 0 && <button onClick={prevStep}>Back</button>}
-                    <button onClick={nextStep}>
+                    <button disabled={(currentStep === 1 && !selectedMethod) || !formData.fName || !formData.lName || !formData.address || !formData.phone || !formData.postalCode || !formData.city} onClick={nextStep}>
                         {currentStep === steps.length - 1 && selectedMethod !== "bkash" ? "Place Order" : "Next"}
                     </button>
                 </div>
@@ -174,11 +174,11 @@ const ShippingForm = ({ formData, handleChange }: { formData: Formdata; handleCh
         <div className="postalcode">
             <div>
                 <label htmlFor="fName">First Name <span>required</span></label>
-                <input type="text" name="fName" value={formData.fName} onChange={handleChange} />
+                <input required type="text" name="fName" value={formData.fName} onChange={handleChange} />
             </div>
             <div>
                 <label htmlFor="lName">Last Name <span>required</span></label>
-                <input type="text" name="lName" value={formData.lName} onChange={handleChange} />
+                <input required type="text" name="lName" value={formData.lName} onChange={handleChange} />
             </div>
         </div>
         <label htmlFor="address">Address <span>required</span></label>
@@ -186,12 +186,12 @@ const ShippingForm = ({ formData, handleChange }: { formData: Formdata; handleCh
         <div className="postalcode">
             <div>
                 <label htmlFor="postalCode">Postal Code <span>required</span></label>
-                <input type="text" name="postalCode" value={formData.postalCode} onChange={handleChange} />
+                <input required type="text" name="postalCode" value={formData.postalCode} onChange={handleChange} />
             </div>
             <div>
                 <label htmlFor="city">City/Town <span>required</span></label>
                 {/* <input type="text" name="city" value={formData.city} onChange={handleChange} /> */}
-                <select name="city" value={formData.city} onChange={handleChange} >
+                <select required name="city" value={formData.city} onChange={handleChange} >
                     {districts.map((district) => (
                         <option key={district} value={district.toLowerCase()}>{district.toUpperCase()}</option>
                     ))}
@@ -199,7 +199,7 @@ const ShippingForm = ({ formData, handleChange }: { formData: Formdata; handleCh
             </div>
         </div>
         <label htmlFor="phone">Phone Number <span>required</span></label>
-        <input type="text" name="phone" value={formData.phone} onChange={handleChange} />
+        <input required type="text" name="phone" value={formData.phone} onChange={handleChange} />
     </div>
 );
 
