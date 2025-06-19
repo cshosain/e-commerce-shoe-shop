@@ -95,8 +95,8 @@ Follow these steps to install and run this repository:
 
 4. **(Optional) Start the backend server**
 
-- If you are using the provided backend, navigate to the backend directory which is in a seperate repository link: https://github.com/cshosain/complete-e-commerce-shoe-shop-backend.git and follow the instructions of that repository to start the server.
+- If you are using the provided backend, navigate to the backend directory which is in a seperate repository, visit: https://github.com/cshosain/complete-e-commerce-shoe-shop-backend.git and follow the instructions of that repository to start the server.
 
-4. **Open the browser**
+5. **Open the browser**
 
 - Visit http://localhost:5173 to view the app.
