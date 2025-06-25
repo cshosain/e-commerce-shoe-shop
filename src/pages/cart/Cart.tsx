@@ -28,16 +28,6 @@ const Cart = () => {
         }, {} as { [key: string]: number });
         setQuantities(initialQuantities);
     }, [cartItems]);
-
-    useEffect(() => {
-        const user = localStorage.getItem("user");
-        if (!user) {
-            toast.error("Please login to view your cart");
-            setTimeout(() => {
-                navigate("/auth");
-            }, 4000);
-        }
-    }, [navigate]);
     const handleQuantityChange = (cartId: string, newQuantity: number) => {
         // Update the local state instantly
         setQuantities((prev) => ({

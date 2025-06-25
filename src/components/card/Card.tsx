@@ -36,7 +36,7 @@ const Card = ({ productId, img, title, ratings, prevPrice, newPrice }: Props) =>
           {x.map((i) => (
             <AiFillStar key={i} className="rating-star" />
           ))}
-          <span className="total-reviews">({ratings.averageRating})</span>
+          <span className="total-reviews">({ratings.averageRating ? ratings.averageRating : "No reviews"})</span>
         </section>
         <section className="card-price">
           <div className="price">

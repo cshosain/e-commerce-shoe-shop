@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import "./product.scss";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Context from "../../contexts/Context.ts";
@@ -60,8 +60,9 @@ const Product = () => {
 
   const handleAddToCart = async () => {
     // ✅ Check if user is logged in using local storage
-    const user = localStorage.getItem("user");
-    if (!isAuthenticated && !user) {
+    // const user = localStorage.getItem("user");
+    console.log("User from local storage:", isAuthenticated);
+    if (!isAuthenticated) {
       toast.error("Please log in to add items to the cart.", {
         position: "top-center",
         autoClose: 4000,
@@ -97,25 +98,34 @@ const Product = () => {
       );
 
       if (response.data.success) {
-        toast.success("Item added to cart!", {
+        toast.success(response.data.message || "Item added to cart!", {
           position: "top-center",
           autoClose: 4000,
         });
         setIsAddedToCart(true); // Mark as added to cart
         setLoading(false);
       } else {
-        toast.error("Error adding to cart", {
+        console.log(response.data.message);
+        toast.error(response.data.message || "Error adding to cart", {
           position: "top-center",
           autoClose: 4000,
         });
         setLoading(false);
       }
-    } catch (error) {
-      console.error("Add to cart error:", error);
-      toast.error("Something went wrong while adding to the cart.", {
-        position: "top-center",
-        autoClose: 4000,
-      });
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        console.log(error.response?.data);
+        toast.error(error.response?.data.message || "Something went wrong while adding to the cart.", {
+          position: "top-center",
+          autoClose: 4000,
+        });
+      } else {
+        console.log(error);
+        toast.error("Something went wrong while adding to the cart.", {
+          position: "top-center",
+          autoClose: 4000,
+        });
+      }
       setLoading(false);
     }
   };

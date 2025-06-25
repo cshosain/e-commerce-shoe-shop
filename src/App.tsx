@@ -18,6 +18,7 @@ import { ToastContainer } from "react-toastify";
 import "@fortawesome/fontawesome-free/css/all.min.css"; // Import Font Awesome
 import Footer from "./components/footer/Footer.tsx";
 import Review from "./pages/reviews/Reviews.tsx";
+import Orders from "./pages/orders/Orders.tsx";
 
 function App() {
   const queryClient = new QueryClient();
@@ -40,10 +41,11 @@ function App() {
             <Route path='/error?' element={<Error />} />
             <Route path='/success' element={<Success />} />
 
-            {/* <Route element={<ProtectedRoutes />}> */}
-            <Route element={<Cart />} path="/cart" />
-            <Route element={<Profile />} path="/profile" />
-            {/* </Route> */}
+            <Route element={<ProtectedRoutes />}>
+              <Route element={<Cart />} path="/cart" />
+              <Route element={<Profile />} path="/profile" />
+              <Route element={<Orders />} path="/orders" />
+            </Route>
             <Route path="/:productId/ratings-reviews" element={<Review />} />
 
           </Routes>

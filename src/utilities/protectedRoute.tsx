@@ -1,16 +1,15 @@
 import { Outlet, Navigate } from "react-router-dom";
-import { useContext } from "react";
-import Context from "../contexts/Context";
+import useIsLoggedIn from "../customHooks/useIsLoggedIn.ts"; // Import the custom hook
 
 const ProtectedRoutes = () => {
-    const { isAuthenticated } = useContext(Context);
+    const isLoggedIn = useIsLoggedIn();
 
-    if (isAuthenticated === null) {
+    if (isLoggedIn === null) {
         // Still checking login state
         return <div style={{ color: "red" }}>Loading...</div>; // or just return null
     }
 
-    return isAuthenticated ? <Outlet /> : <Navigate to="/auth" />;
+    return isLoggedIn ? <Outlet /> : <Navigate to="/auth" />;
 };
 
 export default ProtectedRoutes;

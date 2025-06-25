@@ -5,35 +5,27 @@ const useIsLoggedIn = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
 
   useEffect(() => {
-    const checkLoginStatus = async () => {
+    //check if user is authenticated by http://localhost:3000/api/user/auth/check using  axios
+    const checkAuthentication = async () => {
       try {
-        const { data } = await axios.get("http://localhost:3000/api/user/me", {
-          withCredentials: true,
-        });
-        if (data.success) {
-          setIsLoggedIn(true);
-          // localStorage.setItem("user", JSON.stringify(data.user)); // Store user data in local storage
-          console.log("User is logged in:", data.user); // Log user data
-        } else {
-          setIsLoggedIn(false);
-        }
+        const response = await axios.get(
+          "http://localhost:3000/api/user/auth/check",
+          {
+            withCredentials: true, // Ensure cookies are sent with the request
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        setIsLoggedIn(response.data.success);
+        console.log("Authentication check response:", response.data.success);
       } catch (error) {
-        setIsLoggedIn(false); // Not logged in or error
-        if (axios.isAxiosError(error) && error.response) {
-          console.log(error.response.data.message); // Log error message
-        } else {
-          console.log("An unknown error occurred:", error); // Handle unknown errors
-        }
+        console.error("Error checking authentication:", error);
+        setIsLoggedIn(false);
       }
     };
-
-    if (localStorage.getItem("user")) {
-      setIsLoggedIn(true); // User is logged in
-    } else {
-      checkLoginStatus(); // Check login status from server
-    }
-  }, []);
-
+    checkAuthentication();
+  }, [setIsLoggedIn]);
   return isLoggedIn;
 };
 
