@@ -24,6 +24,7 @@ const Checkout = () => {
     const [selectedMethod, setSelectedMethod] = useState<string | null>(null);
     const { cartItems, totalPrice } = useFetchCart()
     const navigate = useNavigate()
+    const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
 
     // Form state
     const [formData, setFormData] = useState<Formdata>({
@@ -70,7 +71,7 @@ const Checkout = () => {
                 console.log("hello from checkout page")
                 try {
                     const response = await axios.post(
-                        "http://localhost:3000/api/user/orders/store",
+                        `${baseUrl}/api/user/orders/store`,
                         {
                             items: cartItems,
                             totalAmount: subTotal,
@@ -120,7 +121,7 @@ const Checkout = () => {
             } else if (selectedMethod === 'bkash') {
                 console.log('go away to bkash payment')
                 try {
-                    const { data } = await axios.post('http://localhost:3000/api/bkash/payment/create', { amount: 50, orderId: 1 }, { withCredentials: true })
+                    const { data } = await axios.post(`${baseUrl}/api/bkash/payment/create`, { amount: 50, orderId: 1 }, { withCredentials: true })
                     window.location.href = data.bkashURL
                 } catch (error) {
                     console.log(error)

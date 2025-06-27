@@ -20,6 +20,7 @@ const Review: React.FC = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const [isReviewAdded, setIsReviewAdded] = useState<boolean>(false);
+    const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
 
     // State for ImageViewer
     const [isViewerOpen, setIsViewerOpen] = useState<boolean>(false);
@@ -29,7 +30,7 @@ const Review: React.FC = () => {
     useEffect(() => {
         const fetchReviews = async () => {
             try {
-                const res = await axios.get(`http://localhost:3000/api/shoes/${productId}/ratings-reviews`);
+                const res = await axios.get(`${baseUrl}/api/shoes/${productId}/ratings-reviews`);
                 setReviewData(res.data.data);
                 console.log(res.data.data);
             } catch (error) {
@@ -42,7 +43,7 @@ const Review: React.FC = () => {
         if (productId) {
             fetchReviews();
         }
-    }, [productId]);
+    }, [productId, baseUrl]);
     if (isReviewAdded) {
         // Clear any existing timeout before setting a new one
         if (timeoutRef.current) {

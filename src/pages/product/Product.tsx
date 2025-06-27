@@ -1,13 +1,13 @@
 import { useParams } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import "./product.scss";
 import { useNavigate } from "react-router-dom";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Context from "../../contexts/Context.ts";
 import renderStars from "../../utilities/renderStars.tsx";
+import useIsLoggedIn from "../../customHooks/useIsLoggedIn.ts";
 
 type Product = {
   _id: string;
@@ -39,14 +39,15 @@ const Product = () => {
   const [loading, setLoading] = useState(false);
   const [isAddedToCart, setIsAddedToCart] = useState(false); // Track if the item is added to the cart
   const navigate = useNavigate(); // Will be use to redirect user if not logged in
-  const { isAuthenticated } = useContext(Context); // Get the authentication context
+  const isLoggedIn = useIsLoggedIn(); // Use the custom hook to check login status
   const [selectedImage, setSelectedImage] = useState<string | null>(null); // Track the selected image
+  const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
   //default image for testing
   const defaultImage = "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/2430c836-4346-46ce-9691-7d1480d3683e/AIR+MAX+DN8+%28GS%29.png";
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/shoes/${id}`);
+        const response = await axios.get(`${baseUrl}/api/shoes/${id}`);
         const data = response.data;
         setProduct(data);
         console.log(data);
@@ -55,14 +56,13 @@ const Product = () => {
       }
     };
     fetchData();
-  }, [id]);
+  }, [id, baseUrl, isLoggedIn]);
 
 
   const handleAddToCart = async () => {
     // ✅ Check if user is logged in using local storage
     // const user = localStorage.getItem("user");
-    console.log("User from local storage:", isAuthenticated);
-    if (!isAuthenticated) {
+    if (!isLoggedIn) {
       toast.error("Please log in to add items to the cart.", {
         position: "top-center",
         autoClose: 4000,
@@ -83,7 +83,7 @@ const Product = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        "http://localhost:3000/api/user/cart/add",
+        `${baseUrl}/api/user/cart/add`,
         {
           productId: product?._id,
           size: selectedSize,

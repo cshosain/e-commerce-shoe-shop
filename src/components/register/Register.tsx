@@ -3,26 +3,27 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 
+interface FormData {
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    password: string;
+    verificationMethod: "email" | "phone";
+}
+
 const Register = () => {
     const navigateTo = useNavigate();
     const {
         register,
         handleSubmit,
     } = useForm<FormData>();
-
-    interface FormData {
-        firstName: string;
-        lastName: string;
-        email: string;
-        phone: string;
-        password: string;
-        verificationMethod: "email" | "phone";
-    }
+    const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
 
     const handleRegister = async (data: FormData) => {
         data.phone = `+880${data.phone}`;
         await axios
-            .post("http://localhost:3000/api/user/register", data, {
+            .post(`${baseUrl}/api/user/register`, data, {
                 withCredentials: true,
                 headers: { "Content-Type": "application/json" },
             })

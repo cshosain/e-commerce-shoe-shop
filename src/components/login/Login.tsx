@@ -12,6 +12,7 @@ type LoginData = {
 const Login = () => {
     const { setIsAuthenticated, setUser } = useContext(Context);
     const navigateTo = useNavigate();
+    const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
 
     const {
         register,
@@ -20,7 +21,7 @@ const Login = () => {
     const handleLogin = async (data: LoginData) => {
         try {
             const response = await axios.post(
-                "http://localhost:3000/api/user/login",
+                `${baseUrl}/api/user/login`,
                 data,
                 {
                     withCredentials: true,

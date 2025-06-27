@@ -10,12 +10,13 @@ const ResetPassword = () => {
     const { token } = useParams();
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
 
     const handleResetPassword = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         await axios
             .put(
-                `http://localhost:3000/api/user/password/reset/${token}`,
+                `${baseUrl}/api/user/password/reset/${token}`,
                 { password, confirmPassword },
                 {
                     withCredentials: true,

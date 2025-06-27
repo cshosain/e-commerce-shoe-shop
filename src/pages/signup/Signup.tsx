@@ -22,6 +22,7 @@ const schema = yup.object().shape({
 const Signup = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
 
     const {
         register,
@@ -34,7 +35,7 @@ const Signup = () => {
     const onSubmit = async (data: object) => {
         setLoading(true);
         try {
-            const response = await axios.post("http://localhost:3000/api/user/signup", data);
+            const response = await axios.post(`${baseUrl}/api/user/signup`, data);
             if (response.data.success) {
                 alert("Signup successful!");
                 navigate("/login"); // Redirect to login page after signup

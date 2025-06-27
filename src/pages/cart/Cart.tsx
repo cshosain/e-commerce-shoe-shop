@@ -19,6 +19,7 @@ const Cart = () => {
     const [loadingItemId, setLoadingItemId] = useState<string | null>(null);
     const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
     const [debounceTimers, setDebounceTimers] = useState<{ [key: string]: ReturnType<typeof setTimeout> }>({});
+    const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
 
     // Initialize quantities state after cartItems are fetched
     useEffect(() => {
@@ -59,7 +60,7 @@ const Cart = () => {
     const saveUpdatedQuantityToDB = async (cartId: string, quantity: number) => {
         try {
             await axios.put(
-                `http://localhost:3000/api/user/cart/update`,
+                `${baseUrl}/api/user/cart/update`,
                 { cartId, quantity },
                 {
                     withCredentials: true,
@@ -86,7 +87,7 @@ const Cart = () => {
     const removeItem = async (cartId: string) => {
         try {
             const response = await axios.delete(
-                `http://localhost:3000/api/user/cart/remove/${cartId}`,
+                `${baseUrl}/api/user/cart/remove/${cartId}`,
                 {
                     withCredentials: true,
                     headers: {

@@ -18,6 +18,8 @@ const Nav = ({ displayMenu, setDisplayMenu }: Prop) => {
   const navigate = useNavigate();
   const { user } = useContext(Context)
   const coppyUser = JSON.parse(JSON.stringify(user));
+  // const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
+  const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
 
   // const [cachedUser, setCachedUser] = useState<{
   //   firstName: string;
@@ -36,12 +38,16 @@ const Nav = ({ displayMenu, setDisplayMenu }: Prop) => {
 
 
   const handleLogout = async () => {
-    localStorage.removeItem("user");
     // setUser(null);
-    await axios.get("http://localhost:3000/api/user/logout", {
-      withCredentials: true
-    });
-    window.location.reload(); // Refresh to reflect logout
+    try {
+      await axios.get(`${baseUrl}/api/user/logout`, {
+        withCredentials: true
+      });
+      localStorage.removeItem("user");
+      window.location.reload(); // Refresh to reflect logout
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   const handleSearch = useCallback(
@@ -99,7 +105,10 @@ const Nav = ({ displayMenu, setDisplayMenu }: Prop) => {
               </button>
               <div className="dropdown-menu">
                 <p>{coppyUser?.firstName || parsedUser?.firstName} {coppyUser?.lastName || parsedUser?.lastName}</p>
-                <button onClick={handleLogout}>Logout</button>
+                <button onClick={(e) => {
+                  e.stopPropagation;
+                  handleLogout();
+                }}>Logout</button>
               </div>
             </div>
           ) : (

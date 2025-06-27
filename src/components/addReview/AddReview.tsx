@@ -26,6 +26,7 @@ const AddReview = ({
     const [images, setImages] = useState<File[]>([]);
     const [previewUrls, setPreviewUrls] = useState<string[]>([]);
     const [isCategoryReview, setIsCategoryReview] = useState<boolean>(false);
+    const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
     const [categoryRatings, setCategoryRatings] = useState({
         comfort: 1,
         durability: 1,
@@ -100,7 +101,7 @@ const AddReview = ({
             };
 
             await axios.post(
-                `http://localhost:3000/api/shoes/${productId}/review`,
+                `${baseUrl}/api/shoes/${productId}/review`,
                 reviewPayload,
                 {
                     withCredentials: true,
@@ -113,7 +114,7 @@ const AddReview = ({
             // Submit category ratings if enabled
             if (isCategoryReview) {
                 await axios.post(
-                    `http://localhost:3000/api/shoes/${productId}/category-rating`,
+                    `${baseUrl}/api/shoes/${productId}/category-rating`,
                     categoryRatings,
                     {
                         withCredentials: true,

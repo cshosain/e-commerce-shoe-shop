@@ -5,12 +5,13 @@ import { toast } from "react-toastify";
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState("");
+    const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
 
     const handleForgotPassword = async (e: React.FormEvent) => {
         e.preventDefault();
         await axios
             .post(
-                "http://localhost:3000/api/user/password/forgot",
+                `${baseUrl}/api/user/password/forgot`,
                 { email },
                 {
                     withCredentials: true,

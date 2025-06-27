@@ -45,9 +45,10 @@ interface Order {
 const Orders: React.FC = () => {
     const [orders, setOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState(true);
+    const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
 
     useEffect(() => {
-        axios.get("http://localhost:3000/api/user/orders", {
+        axios.get(`${baseUrl}/api/user/orders`, {
             withCredentials: true,
         })
             .then(res => {
@@ -55,7 +56,7 @@ const Orders: React.FC = () => {
             })
             .catch(() => setOrders([]))
             .finally(() => setLoading(false));
-    }, []);
+    }, [baseUrl]);
     const navigate = useNavigate();
 
     return (

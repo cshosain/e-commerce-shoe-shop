@@ -9,6 +9,7 @@ const OtpVerification = () => {
     const { isAuthenticated, setIsAuthenticated, setUser } = useContext(Context);
     const { email, phone } = useParams();
     const [otp, setOtp] = useState(["", "", "", "", ""]);
+    const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
 
     const handleChange = (value: string, index: number) => {
         if (!/^\d*$/.test(value)) return;
@@ -42,7 +43,7 @@ const OtpVerification = () => {
             phone,
         };
         await axios
-            .post("http://localhost:3000/api/user/otp-verification", data, {
+            .post(`${baseUrl}/api/user/otp-verification`, data, {
                 withCredentials: true,
                 headers: { "Content-Type": "application/json" },
             })

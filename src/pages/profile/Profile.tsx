@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -8,7 +8,7 @@ import "./Profile.scss";
 import { motion } from "framer-motion";
 import { ToastContainer, toast } from "react-toastify"; // Import toast
 import "react-toastify/dist/ReactToastify.css"; // Import toast styles
-import Context from "../../contexts/Context.ts";
+
 
 // ✅ Profile Update Validation Schema (Password is optional)
 const schema = yup.object().shape({
@@ -40,13 +40,13 @@ const Profile = () => {
     const [loading, setLoading] = useState(false);
     const [showForm, setShowForm] = useState(false); // Toggle form
     const navigate = useNavigate();
-    const { isAuthenticated } = useContext(Context)
+    const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
     // ✅ Fetch User Data
     useEffect(() => {
         const fetchUser = async () => {
             try {
                 const response = await axios.get(
-                    "http://localhost:3000/api/user/me",
+                    `${baseUrl}/api/user/me`,
                     {
                         withCredentials: true, // Ensures cookies are sent and stored
                         headers: {
@@ -58,16 +58,13 @@ const Profile = () => {
                 setUser(response.data.user);
             } catch (error) {
                 console.error("Error fetching user:", error);
-                if (!isAuthenticated) {
-                    navigate("/auth"); // Redirect to login if not logged in
-                    return;
-                }
+                return navigate("/auth"); // Redirect to login if not authenticated
 
             }
         };
 
         fetchUser();
-    }, [isAuthenticated, navigate]);
+    }, [navigate, baseUrl]);
 
     // ✅ Handle Form Submission for Profile Update
     const {
@@ -79,7 +76,7 @@ const Profile = () => {
     const onSubmit = async (data: object) => {
         setLoading(true);
         try {
-            await axios.put("http://localhost:3000/api/user/update-profile", data, {
+            await axios.put(`${baseUrl}/api/user/update-profile`, data, {
                 withCredentials: true, // Ensures cookies are sent and stored
                 headers: {
                     "Content-Type": "application/json",
@@ -109,7 +106,7 @@ const Profile = () => {
         try {
             localStorage.removeItem("user");
             setUser(null);
-            await axios.get("http://localhost:3000/api/user/logout", {
+            await axios.get(`${baseUrl}/api/user/logout`, {
                 withCredentials: true,
             });
             toast.success("Logged out successfully!", {
