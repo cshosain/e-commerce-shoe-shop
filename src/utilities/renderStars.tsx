@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faStarHalfAlt, faStarHalfStroke, faStarHalf } from '@fortawesome/free-solid-svg-icons';
+import { faStar, faStarHalfAlt } from '@fortawesome/free-solid-svg-icons';
 
 const renderStars = (rating: number) => {
   const fullStars = Math.floor(rating);

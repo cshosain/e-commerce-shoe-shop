@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import Card from "../card/Card";
 import "./products.scss";
 import { useInfiniteQuery } from "react-query";
@@ -60,7 +60,7 @@ const Products = () => {
   const shoes = data?.pages.flatMap((page) => page.data) || [];
 
   if (isLoading) return <div>Loading...</div>;
-  if (isError) return <p>{error.message}</p>;
+  if (isError) return <p>{(error as Error)?.message ?? "An error occurred"}</p>;
   if (!shoes.length) return <p>No Item Found!</p>;
 
   return (
