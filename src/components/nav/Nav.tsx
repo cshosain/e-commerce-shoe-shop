@@ -1,7 +1,7 @@
 import "./nav.scss";
 import { FiHeart } from "react-icons/fi";
 import { AiOutlineShoppingCart, AiOutlineUserAdd } from "react-icons/ai";
-import { useCallback, useRef, useContext, useState, useEffect } from "react";
+import { useCallback, useRef, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Context from "../../contexts/Context.ts";
