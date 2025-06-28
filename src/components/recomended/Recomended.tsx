@@ -2,22 +2,14 @@ import { useState } from "react";
 import { useShoeContext } from "../../customHooks/useShoeContext.ts";
 import "./recomended.scss";
 
-type BtnIds = boolean[];
+type SelectedBtn = string;
 
 const Recomended = () => {
   const { setFilteredCriteria } = useShoeContext();
-  const [btnIds, setBtnIds] = useState<BtnIds>([
-    true,
-    false,
-    false,
-    false,
-    false,
-  ]);
+  const [selectedBtn, setSelectedBtn] = useState<SelectedBtn>('0');
   const handleBrandBtn = (event: React.MouseEvent<HTMLInputElement>) => {
     const value = event.currentTarget.value;
-    const id = parseInt(event.currentTarget.id);
-    setBtnIds([false, false, false, false, false]);
-    setBtnIds((prev) => [...prev, (prev[id] = true)]);
+    setSelectedBtn(event.currentTarget.id);
     setFilteredCriteria((prevCriteria) => ({
       ...prevCriteria,
       brand: value === "All Products" ? "All" : value,
@@ -29,43 +21,43 @@ const Recomended = () => {
       <h2 className="recomended-head">Recomended</h2>
       <div className="buttons">
         <input
-          className={btnIds[0] ? "active" : ""}
+          className={selectedBtn === "0" ? "active" : ""}
           type="button"
           id="0"
-          disabled={btnIds[0]}
+          disabled={selectedBtn === "0"}
           onClick={handleBrandBtn}
           value="All Products"
         />
         <input
-          className={btnIds[1] ? "active" : ""}
+          className={selectedBtn === "1" ? "active" : ""}
           type="button"
           id="1"
-          disabled={btnIds[1]}
+          disabled={selectedBtn === "1"}
           onClick={handleBrandBtn}
           value="Nike"
         />
         <input
-          className={btnIds[2] ? "active" : ""}
+          className={selectedBtn === "2" ? "active" : ""}
           type="button"
           id="2"
-          disabled={btnIds[2]}
+          disabled={selectedBtn === "2"}
           onClick={handleBrandBtn}
           value="Adidas"
         />
         <input
-          className={btnIds[3] ? "active" : ""}
+          className={selectedBtn === "3" ? "active" : ""}
           type="button"
           id="3"
-          disabled={btnIds[3]}
+          disabled={selectedBtn === "3"}
           onClick={handleBrandBtn}
           value="Puma"
         />
         <input
-          className={btnIds[4] ? "active" : ""}
-          style={{ backgroundColor: btnIds[4] ? "green" : "" }}
+          className={selectedBtn === "4" ? "active" : ""}
+          style={{ backgroundColor: selectedBtn[4] ? "green" : "" }}
           type="button"
           id="4"
-          disabled={btnIds[4]}
+          disabled={selectedBtn === "4"}
           onClick={handleBrandBtn}
           value="Vars"
         />

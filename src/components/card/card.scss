@@ -1,3 +1,5 @@
+@use "../../styles/responsive.scss" as *;
+
 .card {
   background-color: #fff;
   border-radius: 8px;
@@ -16,10 +18,15 @@
   &:hover {
     transform: scale(1.05);
   }
+  @include md {
+    width: 150px;
+    height: 200px;
+    font-size: small;
+  }
 
   .card-img {
-    width: 75%;
-    max-height: 70%;
+    width: 100%;
+    max-height: 71%;
     // height: 180px; // Adjust height based on image size
     object-fit: cover;
   }
@@ -33,16 +40,20 @@
       color: #333;
       margin: 0;
       margin-bottom: 8px;
+      text-align: center;
     }
 
     .card-reviews {
       display: flex;
       align-items: center;
-      font-size: 0.9rem;
+      justify-content: center;
       color: #f39c12;
+      @include md {
+        font-size: 0.8rem;
+      }
 
       .total-reviews {
-        margin-left: 8px;
+        text-align: center;
         font-size: 0.8rem;
         color: #777;
       }
@@ -56,6 +67,9 @@
       .price {
         font-size: 1rem;
         color: #e74c3c;
+        @include md {
+          font-size: 0.9rem;
+        }
 
         del {
           margin-right: 8px;
@@ -64,7 +78,7 @@
       }
 
       .bag {
-        padding: 8px;
+        padding: 5px 0 8px 8px;
         border-radius: 50%;
         display: flex;
         align-items: center;

@@ -36,6 +36,7 @@ const Products = () => {
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery(["shoesData", filterCriteria], fetchShoes, {
+    // enabled: searchByEnterKey,
     getNextPageParam: (lastPage, allPages) => {
       return lastPage.hasMore ? allPages.length + 1 : undefined;
     },
@@ -57,6 +58,7 @@ const Products = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
+  // Flatten the data from all pages
   const shoes = data?.pages.flatMap((page) => page.data) || [];
 
   if (isLoading) return <div>Loading...</div>;
@@ -66,7 +68,7 @@ const Products = () => {
   return (
     <div className="outer-products">
       <div className="products">
-        {shoes.map((singleShoe) => (
+        {shoes?.map((singleShoe) => (
           <Card
             key={singleShoe._id}
             img={singleShoe.img}
