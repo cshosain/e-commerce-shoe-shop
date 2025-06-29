@@ -38,6 +38,7 @@
       }
       @include sm {
         scale: 0.8;
+        margin-right: 0;
       }
 
       span {
@@ -194,6 +195,7 @@
           background: none;
           border: none;
           cursor: pointer;
+          margin-right: 4px;
 
           .profile-img {
             width: 35px;

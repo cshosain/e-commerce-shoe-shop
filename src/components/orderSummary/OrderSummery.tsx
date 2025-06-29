@@ -1,12 +1,13 @@
 import "./orderSummary.scss";
 import useFetchCart from "../../customHooks/useFetchCart";
+import { useNavigate } from "react-router-dom";
 type Props = {
     shipingCost: number;
 }
 
 const OrderSummary = (props: Props) => {
     const { cartItems, totalPrice } = useFetchCart()
-    console.log(cartItems)
+    const navigate = useNavigate();
     const { shipingCost } = props;
     //shiping cost $10 per item and tax = 30% of product price.
     const subTotal = shipingCost * cartItems.length * 10 + totalPrice + parseFloat((totalPrice * 0.3).toFixed(2));
@@ -15,7 +16,10 @@ const OrderSummary = (props: Props) => {
 
     return (
         <div className="order-summary">
-            <h3>Order Summary <a href="#" className="edit-cart">Edit cart</a></h3>
+            <h3>Order Summary <span onClick={(e) => {
+                e.stopPropagation
+                navigate("/cart")
+            }} className="edit-cart">Edit cart</span></h3>
             <div className="summary-item">
                 <span>Merchandise:</span>
                 <span className="price">$ {totalPrice}</span>

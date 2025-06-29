@@ -5,12 +5,21 @@ import { useNavigate } from "react-router-dom";
 import useFetchCart from "../../customHooks/useFetchCart";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import homeSvg from "../../assets/home.svg"
+import emptyCart from "../../assets/empty-cart.png";
 
 import { ToastPosition } from "react-toastify";
+import Loading from "../../components/loading/Loading";
 
 const toastConfig = {
     position: "top-center" as ToastPosition,
     autoClose: 4000,
+    // decrease size of toast
+    style: {
+        fontSize: "14px",
+        width: "300px",
+        textAlign: "center" as React.CSSProperties["textAlign"],
+    },
 };
 
 const Cart = () => {
@@ -113,14 +122,18 @@ const Cart = () => {
         }
     };
 
-    return loading ? (
-        <div>Loading...</div>
-    ) : (
+    return (
         <div>
+            <button onClick={() => navigate("/")} className="back-to-home">
+                {/* {home svg} */}
+                {<img src={homeSvg} alt="Back to Home" />}
+            </button>
             <h1 className="main-heading">YOUR CART</h1>
-            <div className="cart-page">
-                {cartItems?.length === 0 ? (
+            {loading && <Loading />}
+            <div style={cartItems?.length === 0 && !loading ? { justifyContent: 'center', gap: '0' } : {}} className="cart-page">
+                {cartItems?.length === 0 && !loading ? (
                     <div className="empty-cart">
+                        <img src={emptyCart} alt="Empty Cart" />
                         <h2>Your cart is empty</h2>
                         <button
                             onClick={() => navigate("/")}
