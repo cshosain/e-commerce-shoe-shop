@@ -81,6 +81,7 @@ const AddReview = ({
 
     const handleSubmit = async () => {
         if (!rating || !message.trim()) {
+            console.log("Rating or message is empty");
             toast.error("Please provide a rating and message.");
             return;
         }

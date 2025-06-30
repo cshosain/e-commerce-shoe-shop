@@ -6,6 +6,7 @@ import renderStars from "../../utilities/renderStars";
 import AddReview from "../../components/addReview/AddReview";
 import { defaultAvatar } from "../../assets/default";
 import ImageViewer from "../../components/imageViewer/ImageViewer";
+import Loading from "../../components/loading/Loading";
 
 type ReviewData = {
     ratings: { averageRating: number; noOfRatings: number; ratingsBreakdown: { star: number; count: number }[]; categoryRatings: { userName: string; comfort: number; style: number; fit: number; durability: number; valueForMoney: number; _id: string }[]; averageCategoryRatings: { [key: string]: number } };
@@ -95,8 +96,9 @@ const Review: React.FC = () => {
         categoryRating: categoryRatingsMap.get(review.userName) || null,
     }));
 
-    if (!reviewData) return <div className="review-error">No reviews found.</div>;
-    if (loading) return <div className="review-loading">Loading...</div>;
+    if (!reviewData && !loading) return <div className="review-error">No reviews found.</div>;
+
+    if (loading) return <div className="review-loading"><Loading /></div>;
 
     return (
         <div className="review-container">
@@ -104,18 +106,20 @@ const Review: React.FC = () => {
 
             <div className="review-summary">
                 <div className="review-average">
-                    <h1>{reviewData.ratings?.averageRating.toFixed(1)}</h1>
+                    <h1>{reviewData?.ratings?.averageRating?.toFixed(1) ?? "0.0"}</h1>
                     <div>
 
-                        <div className="review-stars">{renderStars(reviewData.ratings?.averageRating)}</div>
-                        <p>{reviewData.ratings?.noOfRatings >= 1000
-                            ? `${(reviewData.ratings?.noOfRatings / 1000).toFixed()}K reviews`
-                            : reviewData.ratings?.noOfRatings + " reviews"}</p>
+                        <div className="review-stars">{renderStars(reviewData?.ratings?.averageRating ?? 0)}</div>
+                        <p>
+                            {reviewData && reviewData.ratings?.noOfRatings >= 1000
+                                ? `${(reviewData.ratings?.noOfRatings / 1000).toFixed()}K reviews`
+                                : reviewData?.ratings?.noOfRatings + " reviews"}
+                        </p>
                     </div>
                 </div>
 
                 <div className="review-breakdown">
-                    {reviewData.ratings?.ratingsBreakdown.map((item, index) => (
+                    {reviewData && reviewData.ratings?.ratingsBreakdown.map((item, index) => (
                         <div key={item.star} style={{ marginBottom: `${reviewData.ratings?.ratingsBreakdown.length - 1 == index ? '0' : '10px'}` }} className="breakdown-item">
                             <span>{item.star}.0</span>
                             <div className="breakdown-bar">
@@ -135,7 +139,7 @@ const Review: React.FC = () => {
             </div>
 
             <div className="category-ratings">
-                {Object.entries(reviewData.ratings?.averageCategoryRatings).map(([category, rating]) => (
+                {Object.entries(reviewData?.ratings?.averageCategoryRatings ?? {}).map(([category, rating]) => (
                     <div key={category} className="category-item">
                         <span className="rating">{rating.toFixed(1)}</span> {category.replace(/^\w/, (c) => c.toUpperCase())}
                     </div>

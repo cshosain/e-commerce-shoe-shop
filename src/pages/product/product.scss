@@ -1,7 +1,12 @@
+@use "../../styles/responsive.scss" as *;
+
 .product-page {
   font-family: "Arial", sans-serif;
   padding: 20px;
   background-color: #f8f8f8;
+  @include sm {
+    padding-top: 0;
+  }
 
   .back-button {
     display: flex;
@@ -17,6 +22,14 @@
     top: 20px;
     left: 20px;
     transition: 0.3s;
+    @include sm {
+      top: 5vw;
+      left: 8vw;
+      padding: 1.6vw 3vw;
+      font-size: 0.9rem;
+      clip-path: polygon(0 0, 100% 0%, 67% 100%, 0% 100%);
+      width: 25vw;
+    }
 
     &:hover {
       background: #d64a4a;
@@ -37,16 +50,28 @@
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    @include sm {
+      margin-top: 5vh;
+      margin-top: 0;
+    }
     .product-image {
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
       gap: 30px;
+      @include sm {
+        clip-path: polygon(35% 0, 100% 0, 100% 100%, 0 100%, 0 8%, 22% 8%);
+        gap: 0;
+        width: 80vw;
+      }
 
       .main-image {
         width: 400px;
         border-radius: 10px;
+        @include sm {
+          width: 90vw;
+        }
       }
       .product-other-images {
         display: flex;
@@ -60,6 +85,10 @@
           border-radius: 5px;
           cursor: pointer;
           transition: 0.3s;
+          @include sm {
+            width: 60px;
+            height: 60px;
+          }
 
           &:hover {
             transform: scale(1.05);
@@ -88,6 +117,9 @@
         font-size: 28px;
         color: #333;
         text-align: center;
+        @include sm {
+          font-size: 16px;
+        }
       }
 
       .subtitle {
@@ -101,6 +133,9 @@
         display: flex;
         align-items: center;
         gap: 5px;
+        @include sm {
+          font-size: 16px;
+        }
 
         .star {
           &.full {
@@ -135,7 +170,10 @@
         justify-content: space-between;
         align-items: center;
         min-width: 340px;
-        max-width: 400px;
+        max-width: 100%;
+        @include sm {
+          width: 79vw;
+        }
         .color-heading {
           font-size: 13px;
           color: gray;
@@ -145,6 +183,11 @@
           display: flex;
           gap: 10px;
           margin: 10px 0;
+          @include sm {
+            justify-content: center;
+            align-items: center;
+            margin: 5px 0;
+          }
 
           .color {
             width: 40px;
@@ -153,13 +196,16 @@
             scale: 0.8;
             cursor: pointer;
             border: none;
+            @include sm {
+              width: 30px;
+              height: 30px;
+            }
 
             &.gray {
               background: gray;
             }
             &.white {
               background: white;
-              border: 2px solid black;
             }
             &.red {
               background: red;
@@ -182,42 +228,62 @@
           }
         }
       }
-      .size-heading {
-        display: flex;
-        align-items: flex-start;
-        min-width: 340px;
+      .size-info {
+        min-width: 100%;
         max-width: 400px;
-        margin-top: 5px;
-        font-size: 13px;
-        color: gray;
-        font-weight: lighter;
-      }
-      .size-options {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin: 10px 0;
+        width: 100%;
+        @include sm {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 5px;
+          width: 75vw;
+        }
 
-        .size {
-          background: #f3f3f3;
-          padding: 10px;
-          border-radius: 5px;
-          cursor: pointer;
-          border: none;
-          width: 116px;
-          font-weight: bold;
-
-          &:hover,
-          &.selected {
-            border: 1px solid #555;
-            padding: 9px;
+        .size-heading {
+          display: flex;
+          align-items: flex-start;
+          min-width: 340px;
+          max-width: 400px;
+          margin-top: 5px;
+          font-size: 13px;
+          color: gray;
+          font-weight: lighter;
+          @include sm {
+            width: max-content;
+            min-width: max-content;
           }
+        }
+        .size-options {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          margin: 10px 0;
 
-          span {
-            display: block;
-            font-size: 11px;
-            color: #bfbdbd;
-            font-weight: lighter;
+          .size {
+            background: #f3f3f3;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            border: none;
+            width: 116px;
+            font-weight: bold;
+            @include sm {
+              width: 30px;
+              padding: 7px 5px;
+            }
+
+            &:hover,
+            &.selected {
+              border: 1px solid #555;
+            }
+
+            span {
+              display: block;
+              font-size: 11px;
+              color: #bfbdbd;
+              font-weight: lighter;
+            }
           }
         }
       }
@@ -226,6 +292,9 @@
         font-size: 24px;
         font-weight: bold;
         margin: 10px 0;
+        @include sm {
+          font-size: 18px;
+        }
       }
 
       .add-to-cart {
@@ -238,6 +307,11 @@
         border-radius: 5px;
         cursor: pointer;
         transition: 0.3s;
+        @include sm {
+          font-size: 16px;
+          padding: 10px 0;
+          width: 75vw;
+        }
 
         &:hover {
           background: #ff7b00;
@@ -256,6 +330,9 @@
         margin-top: 20px;
         font-size: 16px;
         color: #555;
+        @include sm {
+          font-size: 14px;
+        }
         .rating {
           span {
             color: #2b2b2b;
@@ -302,6 +379,10 @@
           border-radius: 5px;
           cursor: pointer;
           transition: 0.3s;
+          @include sm {
+            font-size: 13px;
+            padding: 8px 10px;
+          }
 
           &:hover {
             background: #5b4dc2;
@@ -334,16 +415,6 @@
     align-items: center;
     text-align: center;
     max-height: none;
-    .product-details {
-      padding: 10px;
-      max-height: none;
-      overflow-y: auto;
-    }
-  }
-
-  .back-button {
-    position: static;
-    margin-bottom: 10px;
   }
 }
 @media (max-width: 502px) {
@@ -364,7 +435,7 @@
         }
       }
       .product-image img {
-        max-width: 308px;
+        // max-width: 308px;
       }
     }
     .features {

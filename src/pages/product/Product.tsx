@@ -147,7 +147,7 @@ const Product = () => {
           <img className="main-image" src={selectedImage || product.img} alt={product.title} />
           <div className="product-other-images">
             {product.images.map((image, index) => (
-              <img key={index} src={image || defaultImage} onMouseEnter={() => setSelectedImage(image)} className={selectedImage === image ? "selected-image" : ""} alt={`Product Image ${index + 1}`} />
+              <img key={index} src={image || defaultImage} onMouseEnter={() => setSelectedImage(image)} className={selectedImage === image || (selectedImage === null && index === 0) ? "selected-image" : ""} alt={`Product Image ${index + 1}`} />
             ))}
           </div>
         </div>
@@ -177,19 +177,21 @@ const Product = () => {
           </div>
 
           {/* Size Selection */}
-          <div className="size-heading">
-            <h3>Size</h3>
-          </div>
-          <div className="size-options">
-            {product.availableSizes.map((size) => (
-              <button
-                key={size}
-                className={`size ${selectedSize === size ? "selected" : ""}`}
-                onClick={() => setSelectedSize(size)}
-              >
-                {size}
-              </button>
-            ))}
+          <div className="size-info">
+            <div className="size-heading">
+              <h3>Size</h3>
+            </div>
+            <div className="size-options">
+              {product.availableSizes.map((size) => (
+                <button
+                  key={size}
+                  className={`size ${selectedSize === size ? "selected" : ""}`}
+                  onClick={() => setSelectedSize(size)}
+                >
+                  {size}
+                </button>
+              ))}
+            </div>
           </div>
 
           <div className="price">${product.newPrice}</div>

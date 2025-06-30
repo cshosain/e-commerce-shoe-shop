@@ -50,7 +50,7 @@ function App() {
 
           </Routes>
           <Footer />
-          <ToastContainer theme="colored" />
+          <ToastContainer theme="colored" position="top-right" autoClose={3000} />
         </BrowserRouter>
       </ShoeProvider>
     </QueryClientProvider>
