@@ -2,8 +2,9 @@ import { useState, ChangeEvent } from "react";
 import "./addReview.scss";
 import axios from "axios";
 import imageCompression from "browser-image-compression";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import closeIcon from "../../assets/close.svg"; // Import your close icon
 
 interface WriteReviewModalProps {
     isOpen: boolean;
@@ -155,7 +156,10 @@ const AddReview = ({
                 <div className="modal-header">
                     <img src={userImage} alt="User" className="user-avatar" />
                     <h3>Write a Review</h3>
-                    <button className="close-btn" onClick={handleClose}>×</button>
+                    <button className="close-btn" onClick={handleClose}>
+                        {/* Close Icon svg */}
+                        <img src={closeIcon} alt="" />
+                    </button>
                 </div>
 
                 <div className="stars">
@@ -165,6 +169,9 @@ const AddReview = ({
                             className={`star ${hover! >= star || rating >= star ? "filled" : ""}`}
                             onMouseEnter={() => setHover(star)}
                             onMouseLeave={() => setHover(null)}
+                            onTouchStart={() => setHover(star)
+                            }
+                            onTouchEnd={() => setHover(null)}
                             onClick={() => setRating(star)}
                         >
                             ★
@@ -228,6 +235,7 @@ const AddReview = ({
 
                 <button onClick={handleSubmit} className="submit-btn">Submit Review</button>
             </div>
+            <ToastContainer />
         </div>
     );
 };

@@ -16,7 +16,7 @@ const useIsLoggedIn = () => {
           },
         });
         setIsLoggedIn(response.data.success);
-        console.log("Authentication check response:", response.data.success);
+        console.log("Authentication check response:", response.data);
       } catch (error) {
         console.error("Error checking authentication:", error);
         setIsLoggedIn(false);

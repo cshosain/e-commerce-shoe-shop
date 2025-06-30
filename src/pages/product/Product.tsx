@@ -8,6 +8,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import renderStars from "../../utilities/renderStars.tsx";
 import useIsLoggedIn from "../../customHooks/useIsLoggedIn.ts";
+// import Loading from "../../components/loading/Loading.tsx";
+import ProductSkeleton from "../../components/productSkelenton/ProductSkelenton.tsx";
 
 type Product = {
   _id: string;
@@ -134,7 +136,7 @@ const Product = () => {
     navigate("/cart"); // Navigate to the cart page
   };
 
-  if (!product) return <p>Loading...</p>;
+  if (!product) return <ProductSkeleton />; // Show loading state if product is not fetched yet
 
   return (
     <div className="product-page">

@@ -1,3 +1,5 @@
+@use "../../styles/responsive.scss" as *;
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -20,6 +22,9 @@
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   position: relative;
   animation: fadeIn 0.3s ease-in-out;
+  @include sm {
+    padding: 1.5rem;
+  }
 }
 
 .modal-header {
@@ -27,6 +32,15 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1.25rem;
+  h3 {
+    font-size: 16px;
+    margin: 0 auto;
+    color: #6b4eff;
+    font-weight: 600;
+  }
+  @include sm {
+    margin-bottom: 0;
+  }
 }
 
 .user-avatar {
@@ -42,6 +56,7 @@
   font-size: 1.5rem;
   cursor: pointer;
   color: #999;
+  width: 48px;
 }
 
 .stars {
@@ -51,6 +66,9 @@
   display: flex;
   gap: 0.5rem;
   cursor: pointer;
+  @include sm {
+    margin: 0.5rem 0;
+  }
 }
 
 .star.filled {
@@ -59,7 +77,7 @@
 
 textarea {
   width: 100%;
-  min-height: 100px;
+  height: 100px;
   margin-top: 1rem;
   border: 1px solid #ddd;
   padding: 0.75rem;
@@ -67,6 +85,10 @@ textarea {
   resize: vertical;
   font-size: 1rem;
   font-family: inherit;
+  @include sm {
+    font-size: 0.9rem;
+    height: 75px;
+  }
 }
 
 .file-upload {
@@ -80,6 +102,9 @@ textarea {
   font-weight: 500;
   border: 1px dashed #ccc;
   transition: all 0.3s ease;
+  @include sm {
+    font-size: 14px;
+  }
 }
 
 .file-upload:hover {
@@ -117,6 +142,11 @@ textarea {
   font-weight: bold;
   cursor: pointer;
   transition: background 0.3s ease;
+  @include sm {
+    margin-top: 1rem;
+    font-size: 14px;
+    padding: 0.6rem;
+  }
 }
 
 .submit-btn:hover {
@@ -129,10 +159,16 @@ textarea {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  @include sm {
+    font-size: 0.9rem;
+  }
 
   input[type="checkbox"] {
     transform: scale(1.2);
     margin-right: 0.5rem;
+  }
+  label {
+    display: flex;
   }
 }
 
@@ -150,6 +186,9 @@ textarea {
     label {
       font-size: 1rem;
       font-weight: 500;
+      @include sm {
+        font-size: 0.9rem;
+      }
     }
 
     input {
@@ -166,7 +205,6 @@ textarea {
       gap: 1rem;
 
       input[type="range"] {
-        -webkit-appearance: none;
         width: 150px;
         height: 8px;
         background: #ddd;

@@ -30,17 +30,23 @@ const Login = () => {
                     },
                 }
             );
-            toast.success(response.data.message); // Show success toast
-            setIsAuthenticated(true); // Update authentication state
-            setUser(response.data.user); // Update user state
-            localStorage.setItem("user", JSON.stringify(response.data.user)); // Store user data in localStorage
+            toast.success(response.data.message);
 
-            // Redirect to home page after 2 seconds
+            setIsAuthenticated(true);
+            setUser(response.data.user);
+
+            // Set sessionExpire to 7 days from now
+            const sessionExpire = Date.now() + 7 * 24 * 60 * 60 * 1000;
+            const userWithSession = {
+                ...response.data.user,
+                sessionExpire,
+            };
+            localStorage.setItem("user", JSON.stringify(userWithSession));
+
             setTimeout(() => {
                 navigateTo("/");
             }, 2000);
         } catch (error: any) {
-            // Handle errors and show error toast
             toast.error(error.response?.data?.message || "Login failed");
         }
     };
