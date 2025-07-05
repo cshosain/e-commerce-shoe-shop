@@ -9,7 +9,7 @@ import homeSvg from "../../assets/home.svg"
 import emptyCart from "../../assets/empty-cart.png";
 
 import { ToastPosition } from "react-toastify";
-import Loading from "../../components/loading/Loading";
+import CartSkeleton from "../../components/cartSkeleton/CartSkeleton";
 
 const toastConfig = {
     position: "top-center" as ToastPosition,
@@ -121,6 +121,7 @@ const Cart = () => {
             toast.error("Something went wrong while removing the item.", toastConfig);
         }
     };
+    console.log(cartItems?.length, loading);
 
     return (
         <div>
@@ -129,8 +130,9 @@ const Cart = () => {
                 {<img src={homeSvg} alt="Back to Home" />}
             </button>
             <h1 className="main-heading">YOUR CART</h1>
-            {loading && <Loading />}
+            {loading && <CartSkeleton />}
             <div style={cartItems?.length === 0 && !loading ? { justifyContent: 'center', gap: '0' } : {}} className="cart-page">
+
                 {cartItems?.length === 0 && !loading ? (
                     <div className="empty-cart">
                         <img src={emptyCart} alt="Empty Cart" />
@@ -146,7 +148,10 @@ const Cart = () => {
                     <div className="cart-items">
                         {cartItems.map((item) => (
                             <div className="cart-item" key={item._id}>
-                                <img src={item.img} alt={item.title} />
+                                <img onClick={(e) => {
+                                    e.stopPropagation()
+                                    navigate(`/product/${item.productId}`)
+                                }} src={item.img} alt={item.title} />
                                 <div className="details">
                                     <h3>{item.title}</h3>
                                     <p>
@@ -195,8 +200,8 @@ const Cart = () => {
                         </button>
                     </div>
                 )}
-                <ToastContainer />
             </div>
+            <ToastContainer />
         </div>
     );
 };

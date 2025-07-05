@@ -23,12 +23,12 @@
     left: 20px;
     transition: 0.3s;
     @include sm {
-      top: 5vw;
-      left: 8vw;
-      padding: 1.6vw 3vw;
-      font-size: 0.9rem;
+      top: 3%;
+      left: 8%;
+      padding: 2% 2%;
+      font-size: 13px;
       clip-path: polygon(0 0, 100% 0%, 65% 100%, 0% 100%);
-      width: 25vw;
+      width: 27%;
     }
 
     &:hover {

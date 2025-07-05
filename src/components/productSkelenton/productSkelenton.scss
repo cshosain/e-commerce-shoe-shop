@@ -58,6 +58,10 @@
         }
         @include sm {
           clip-path: polygon(35% 0, 100% 0, 100% 100%, 0 100%, 0 8%, 22% 8%);
+          width: 80vw;
+          min-height: 46vh;
+          height: auto;
+          max-height: 55vh;
         }
       }
       .product-other-images {

@@ -17,7 +17,7 @@ type CartItem = {
 const useFetchCart = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [totalPrice, setTotalPrice] = useState<number>(0);
   //const isLoggedIn = useIsLoggedIn(); // Use the custom hook to check login status
   const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
