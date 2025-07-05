@@ -9,7 +9,7 @@ import homeSvg from "../../assets/home.svg"
 import emptyCart from "../../assets/empty-cart.png";
 
 import { ToastPosition } from "react-toastify";
-import CartSkeleton from "../../components/cartSkeleton/CartSkeleton";
+import CartSkeleton from "../../components/cartSkeleton/CartSkeleton.tsx";
 
 const toastConfig = {
     position: "top-center" as ToastPosition,
