@@ -4,8 +4,9 @@ import "./products.scss";
 import { useInfiniteQuery } from "react-query";
 import axios from "axios";
 import { ShoeContext } from "../../contexts/shoeContext";
-import Loading from "../loading/Loading";
+// import Loading from "../loading/Loading";
 import noItemFound from "../../assets/No Item Found.png";
+import ProductsSkeleton from "../productsSkeleton/ProductsSkeleton.tsx";
 
 
 
@@ -63,7 +64,7 @@ const Products = () => {
   // Flatten the data from all pages
   const shoes = data?.pages.flatMap((page) => page.data) || [];
 
-  if (isLoading) return <div><Loading /></div>;
+  if (isLoading) return <div><ProductsSkeleton /></div>;
   if (isError) return <p>{(error as Error)?.message ?? "An error occurred"}</p>;
 
   return (
