@@ -6,7 +6,7 @@ import renderStars from "../../utilities/renderStars";
 import AddReview from "../../components/addReview/AddReview";
 import { defaultAvatar } from "../../assets/default";
 import ImageViewer from "../../components/imageViewer/ImageViewer";
-import Loading from "../../components/loading/Loading";
+import ReviewsSkeleton from "../../components/reviewsSkeleton/ReviewsSkeleton";
 
 type ReviewData = {
     ratings: { averageRating: number; noOfRatings: number; ratingsBreakdown: { star: number; count: number }[]; categoryRatings: { userName: string; comfort: number; style: number; fit: number; durability: number; valueForMoney: number; _id: string }[]; averageCategoryRatings: { [key: string]: number } };
@@ -98,7 +98,7 @@ const Review: React.FC = () => {
 
     if (!reviewData && !loading) return <div className="review-error">No reviews found.</div>;
 
-    if (loading) return <div className="review-loading"><Loading /></div>;
+    if (loading) return <ReviewsSkeleton />
 
     return (
         <div className="review-container">

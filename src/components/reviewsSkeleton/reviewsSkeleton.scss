@@ -1,0 +1,256 @@
+@use "../../styles/responsive.scss" as *;
+
+.skeleton {
+  background: linear-gradient(90deg, #ececec 25%, #f5f5f5 50%, #ececec 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.2s infinite linear;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Review Container */
+.review-container {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+}
+
+/* Review Summary Skeletons */
+.skeleton-big-num {
+  width: 60px;
+  height: 48px;
+  margin: 0 auto 10px auto;
+  border-radius: 10px;
+}
+.skeleton-stars {
+  width: 90px;
+  height: 18px;
+  margin: 0 auto 6px auto;
+}
+.skeleton-small-text {
+  width: 60px;
+  height: 12px;
+  margin: 0 auto;
+}
+.skeleton-star-label {
+  width: 32px;
+  height: 14px;
+}
+.skeleton-bar-fill {
+  width: 100%;
+  height: 8px;
+  border-radius: 5px;
+}
+.skeleton-count-label {
+  width: 70px;
+  height: 14px;
+}
+.skeleton-cat-num {
+  width: 28px;
+  height: 16px;
+  margin-right: 6px;
+}
+
+/* Category Ratings */
+.category-item .skeleton-cat-num {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Review List Skeletons */
+.skeleton-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.skeleton-username {
+  width: 80px;
+  height: 16px;
+  border-radius: 8px;
+}
+.skeleton-rating-num {
+  width: 24px;
+  height: 18px;
+  margin-right: 5px;
+}
+.skeleton-comment {
+  width: 100%;
+  height: 32px;
+  margin-bottom: 10px;
+}
+.skeleton-img-thumb {
+  width: 64px;
+  height: 64px;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+.skeleton-date {
+  width: 80px;
+  height: 12px;
+  margin-top: 8px;
+}
+.skeleton-cat-label {
+  width: 90px;
+  height: 14px;
+  margin-right: 10px;
+}
+.skeleton-btn {
+  width: 160px;
+  height: 38px;
+  border-radius: 5px;
+  margin: 0 auto;
+  display: block;
+}
+
+/* Layouts matching reviews.scss */
+.review-summary {
+  display: flex;
+  align-items: flex-start;
+  gap: 30px;
+  margin-bottom: 30px;
+  .review-average {
+    text-align: center;
+    .skeleton-review-stars {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+  .review-breakdown {
+    flex: 1;
+    border-left: 2px solid rgb(197, 197, 197);
+    padding-left: 30px;
+    .breakdown-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      span {
+        display: inline-block;
+      }
+      .breakdown-bar {
+        background: #e0e0e0;
+        flex: 1;
+        height: 8px;
+        margin: 0 10px;
+        border-radius: 5px;
+        overflow: hidden;
+      }
+    }
+  }
+  @include md {
+    flex-direction: column;
+    gap: 10px;
+    .review-average {
+      text-align: center;
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      align-items: center;
+    }
+    .review-breakdown {
+      flex: 1;
+      border-left: none;
+      padding-left: 0;
+      width: 100%;
+    }
+  }
+}
+
+.category-ratings {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 30px;
+  .category-item {
+    background: #f2f2f2;
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-size: 14px;
+    min-width: 110px;
+    .skeleton-cat-num {
+      margin-right: 6px;
+    }
+  }
+}
+
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  .review-item {
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+    .review-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      .review-user {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .review-rating {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+    }
+    .review-content {
+      display: flex;
+      justify-content: space-between;
+      gap: 50px;
+      .review-text {
+        flex: 4;
+      }
+      .review-images {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+      .review-category-ratings {
+        flex: 3;
+        .category-rating-item {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          margin-bottom: 10px;
+          .progress-bar-container {
+            flex: 1;
+            height: 10px;
+            min-width: 150px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+          }
+        }
+      }
+    }
+    @include md {
+      .review-content {
+        flex-direction: column;
+        .category-rating-item .progress-bar-container {
+          min-width: 150px;
+        }
+      }
+    }
+  }
+}
+
+.review-footer {
+  text-align: center;
+  margin-top: 20px;
+}
