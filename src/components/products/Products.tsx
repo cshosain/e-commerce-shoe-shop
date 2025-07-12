@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import Card from "../card/Card";
 import "./products.scss";
 import { useInfiniteQuery } from "react-query";
@@ -17,8 +17,10 @@ type FilterCriteria = {
   price?: string;
   keyword?: string;
 };
-
-const Products = () => {
+type Props = {
+  productsRef: React.RefObject<HTMLDivElement>;
+};
+const Products = (props: Props) => {
   const shoeContext = useContext(ShoeContext);
   const filterCriteria: FilterCriteria = shoeContext?.filterCriteria ?? {};
   console.log("Filter Criteria:", filterCriteria);
@@ -45,21 +47,35 @@ const Products = () => {
     },
   });
 
-  // Optional: Infinite scroll
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
   useEffect(() => {
+    const productsDiv = props.productsRef.current;
+    if (!productsDiv) return;
+
     const handleScroll = () => {
+      // Infinite scroll logic
       if (
-        window.innerHeight + document.documentElement.scrollTop + 1 >=
-        document.documentElement.scrollHeight
+        productsDiv.scrollTop + productsDiv.clientHeight >= productsDiv.scrollHeight - 10
       ) {
         if (hasNextPage && !isFetchingNextPage) {
           fetchNextPage();
         }
       }
+      // Show "Back to Top" button if scrolled down 300px or more
+      setShowBackToTop(productsDiv.scrollTop > 300);
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+    productsDiv.addEventListener("scroll", handleScroll);
+    return () => productsDiv.removeEventListener("scroll", handleScroll);
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage, props.productsRef]);
+
+  const handleBackToTop = () => {
+    const productsDiv = props.productsRef.current;
+    if (productsDiv) {
+      productsDiv.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
 
   // Flatten the data from all pages
   const shoes = data?.pages.flatMap((page) => page.data) || [];
@@ -87,13 +103,20 @@ const Products = () => {
           />
         ))}
       </div>
-      {hasNextPage && (
+      {/* {hasNextPage && (
         <button
           className="load-more-btn"
           onClick={() => fetchNextPage()}
           disabled={isFetchingNextPage}
         >
-          {isFetchingNextPage ? "Loading more..." : "Load More"}
+          {isFetchingNextPage ? "Load More" : "Loading more..."}
+        </button>
+      )} */}
+      {isFetchingNextPage && <ProductsSkeleton />}
+      {showBackToTop && (
+        <button className="vertical-scroll-button" onClick={handleBackToTop}>
+          <span className="arrow-icon">&#8593;</span>
+          <span className="text">TO TOP</span>
         </button>
       )}
     </div>

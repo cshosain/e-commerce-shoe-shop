@@ -8,6 +8,10 @@
   .view {
     min-width: 74%;
     // overflow-y: scroll;
+    .home-content {
+      height: 100vh;
+      overflow-y: auto;
+    }
   }
 
   @include md {

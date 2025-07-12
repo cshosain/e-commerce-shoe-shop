@@ -1,9 +1,6 @@
 @use "../../styles/responsive.scss" as *;
 
 .products {
-  // width: 79vw;
-  height: 492px;
-  // border: 1px solid olive;
   margin-left: 0;
   display: flex;
   justify-content: flex-start;
@@ -41,4 +38,53 @@
 .outer-products-invisible {
   background-color: black;
   transition: background-color 0.5s;
+}
+/* Styling for the main button container */
+.vertical-scroll-button {
+  display: flex;
+  flex-direction: column; /* Stack children (arrow and text) vertically */
+  align-items: center; /* Center items horizontally within the flex container */
+  justify-content: center; /* Center items vertically within the flex container */
+  width: 30px; /* Fixed width for the pill shape */
+  height: 120px; /* Fixed height for the pill shape */
+  background-color: white; /* White background as per the image */
+  border: 1px solid #c0c0c0; /* Light gray border as per the image */
+  border-radius: 30px; /* Half of the width to create the pill shape */
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  transition: all 0.2s ease-in-out; /* Smooth transition for hover effects */
+  text-decoration: none; /* Ensure no underline if this were an anchor */
+  color: #333; /* Dark gray text color */
+  overflow: hidden; /* Hide any overflow if content somehow extends */
+  position: fixed;
+  bottom: 0;
+  right: 5px;
+  gap: 15px; /* Space between the arrow and the text */
+}
+
+/* Hover effect for the button */
+.vertical-scroll-button:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Slightly more pronounced shadow on hover */
+  transform: translateY(-2px); /* Slight lift effect on hover */
+}
+
+/* Styling for the arrow icon */
+.vertical-scroll-button .arrow-icon {
+  font-size: 2rem; /* Size of the upward arrow */
+  line-height: 1; /* Ensures no extra space around the icon */
+  margin-bottom: 8px; /* Space between the arrow and the text */
+  color: #333; /* Dark gray color for the arrow */
+}
+
+/* Styling for the "TO TOP" text */
+.vertical-scroll-button .text {
+  font-size: 0.85rem; /* Font size for the text */
+  font-weight: 600; /* Boldness of the text */
+  color: #333; /* Dark gray color for the text */
+  white-space: nowrap; /* Prevent text from wrapping */
+  transform: rotate(-90deg); /* Rotate the text 90 degrees counter-clockwise */
+  transform-origin: center; /* Ensure rotation is around its center */
+  /* Adjust margin-top to visually align the rotated text if needed */
+  margin-top: 10px; /* Adjust this value to fine-tune vertical spacing */
+  margin-bottom: 21px;
 }

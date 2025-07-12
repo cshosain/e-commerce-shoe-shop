@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Nav from "../../components/nav/Nav";
 import Products from "../../components/products/Products";
 import Recomended from "../../components/recomended/Recomended";
@@ -7,6 +7,7 @@ import "./home.scss";
 
 const Home = () => {
   const [displayMenu, setDisplayMenu] = useState<boolean>(false);
+  const productsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (displayMenu) {
@@ -31,8 +32,10 @@ const Home = () => {
       </div>
       <section className={!displayMenu ? "view view-active" : "view"}>
         <Nav displayMenu={displayMenu} setDisplayMenu={setDisplayMenu} />
-        <Recomended />
-        <Products />
+        <div ref={productsRef} className="home-content">
+          <Recomended />
+          <Products productsRef={productsRef} />
+        </div>
       </section>
     </div>
   );
