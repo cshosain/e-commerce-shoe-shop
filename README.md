@@ -2,7 +2,7 @@
 
 ## Welcome to **React E-Commerce Shoe-Shop**, a modern, full-featured e-commerce shoe shop built with React, TypeScript, and custom SCSS. This project demonstrates advanced UI/UX, state management, filtering, and real-world e-commerce flows.
 
-Live url: comming soon!
+## 🚀Live url: https://e-commerce-shoe-shop.onrender.com
 
 ## 🚀 Features
 
