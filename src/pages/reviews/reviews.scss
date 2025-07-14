@@ -285,3 +285,10 @@
   right: 0;
   bottom: 0;
 }
+@media screen and (min-width: 1366px) {
+  .review-container {
+    max-width: 1320px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

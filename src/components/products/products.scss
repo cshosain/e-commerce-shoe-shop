@@ -88,3 +88,8 @@
   margin-top: 10px; /* Adjust this value to fine-tune vertical spacing */
   margin-bottom: 21px;
 }
+@media screen and (min-width: 1366px) {
+  .products .card {
+    width: 262px;
+  }
+}

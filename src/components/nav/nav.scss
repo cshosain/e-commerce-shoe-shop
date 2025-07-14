@@ -1,8 +1,9 @@
 @use "../../styles/responsive.scss" as *;
 
 .nav-container {
-  background: #131921;
-  color: white;
+  background: #ffffff;
+  color: rgb(0, 0, 0);
+  border-radius: 6px;
   padding: 10px 20px;
   display: flex;
   justify-content: flex-start;
@@ -46,7 +47,7 @@
         width: 25px;
         height: 3px;
         margin: 5px auto;
-        background-color: white;
+        background-color: black;
         transition: all 0.3s ease-in-out;
       }
 
@@ -95,14 +96,14 @@
       .search-btn {
         margin-left: 10px;
         padding: 5px 20px;
-        border: none;
+        border: 1px solid #8080806b;
         border-radius: 17px;
-        background: black;
-        color: #fff;
+        background-color: transparent;
+        color: #000;
         font-weight: 600;
         font-size: 1rem;
         cursor: pointer;
-        box-shadow: 0 2px 8px rgba(108, 92, 231, 0.09);
+        // box-shadow: 0 2px 8px rgb(0 0 0 / 37%);
         transition: background 0.2s, box-shadow 0.2s;
         &:hover {
           // background: linear-gradient(90deg, #4834d4 60%, #81b4f3 100%);
@@ -153,6 +154,9 @@
           &:last-child {
             border-bottom: none;
           }
+          @include sm {
+            font-size: small;
+          }
         }
         .search-loading,
         .no-result {
@@ -177,7 +181,7 @@
       .icon-btn {
         background: none;
         border: none;
-        color: white;
+        color: rgb(0, 0, 0);
         font-size: 1.3rem;
         cursor: pointer;
         transition: color 0.2s;
@@ -213,14 +217,20 @@
           padding: 10px;
           border-radius: 5px;
           display: none;
+          width: 150px;
 
           button {
             width: 100%;
-            background: none;
+            background: rgba(255, 0, 0, 0.221);
+            border-radius: 18px;
             border: none;
             padding: 5px;
             cursor: pointer;
-            text-align: left;
+            margin-top: 1rem;
+            // text-align: left;
+            &:hover {
+              background: rgba(255, 0, 0, 0.4);
+            }
           }
         }
 
