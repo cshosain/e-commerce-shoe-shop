@@ -22,7 +22,7 @@ const Home = () => {
 
   return (
     <div className="home">
-      <div onClick={() => setDisplayMenu(false)} className={displayMenu ? "sidebar-overlay" : ""}>
+      <div onClick={() => setDisplayMenu(false)} className={displayMenu ? " sidebar-overlay" : "sidebar-parent"}>
         <section
           className={!displayMenu ? "selcetion selcetion-active" : "selcetion"}
           onClick={e => e.stopPropagation()}
