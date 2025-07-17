@@ -28,7 +28,7 @@ const Products = (props: Props) => {
   const fetchShoes = async ({ pageParam = 1 }) => {
     const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
     const response = await axios.get(
-      `${baseUrl}/api/shoes/paginated?limit=10&page=${pageParam}&brand=${filterCriteria.brand}&category=${filterCriteria.category}&color=${filterCriteria.color}&price=${filterCriteria.price}&keyword=${filterCriteria.keyword}`
+      `${baseUrl}/api/shoes/paginated?limit=12&page=${pageParam}&brand=${filterCriteria.brand}&category=${filterCriteria.category}&color=${filterCriteria.color}&price=${filterCriteria.price}&keyword=${filterCriteria.keyword}`
     );
     return response.data;
   };

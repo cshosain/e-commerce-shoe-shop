@@ -30,10 +30,11 @@ const Nav = ({ displayMenu, setDisplayMenu }: Prop) => {
   }
 
   // --- Search state for results ---
-  const [searchResults, setSearchResults] = useState<{ _id: string; title: string }[]>([]);
+  const [searchResults, setSearchResults] = useState<{ _id: string; title: string; img: string; newPrice: number }[]>([]);
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
+  console.log("Search Results:", searchResults);
 
   const handleLogout = async () => {
     try {
@@ -68,7 +69,7 @@ const Nav = ({ displayMenu, setDisplayMenu }: Prop) => {
         setSearchLoading(true);
         try {
           const response = await axios.get(
-            `${baseUrl}/api/shoes/paginated?limit=10&page=1&keyword=${searchKeyword}`
+            `${baseUrl}/api/shoes/paginated?limit=12&page=1&keyword=${searchKeyword}`
           );
           setSearchResults(response.data.data || []);
         } catch (err) {
@@ -129,8 +130,8 @@ const Nav = ({ displayMenu, setDisplayMenu }: Prop) => {
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
+              width="20"
+              height="20"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -160,7 +161,15 @@ const Nav = ({ displayMenu, setDisplayMenu }: Prop) => {
                         navigate(`/product/${result._id}`);
                       }}
                     >
+                      {result.img && (
+                        <img src={result.img} alt={result.title} className="search-item-img" />
+                      )}
                       {result.title}
+                      {result.newPrice && (
+                        <span className="search-item-price">
+                          ${result.newPrice.toFixed(2)}
+                        </span>
+                      )}
                     </li>
                   ))}
                 </ul>

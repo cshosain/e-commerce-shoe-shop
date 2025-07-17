@@ -4,7 +4,7 @@
   background: #ffffff;
   color: rgb(0, 0, 0);
   border-radius: 6px;
-  padding: 10px 20px;
+  padding: 13px 20px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -75,10 +75,10 @@
 
       input {
         width: 250px;
-        padding: 8px 12px;
-        border-radius: 17px;
+        padding: 7px 12px;
+        border-radius: 20px;
         border: 1px solid #ccc;
-        font-size: 1rem;
+        font-size: 13px;
         transition: border 0.2s;
         &:focus {
           outline: 1px solid #81b4f3;
@@ -95,19 +95,20 @@
 
       .search-btn {
         margin-left: 10px;
-        padding: 5px 20px;
+        padding: 3px 20px;
         border: 1px solid #8080806b;
-        border-radius: 17px;
+        border-radius: 20px;
+        height: 31px;
         background-color: transparent;
         color: #000;
         font-weight: 600;
-        font-size: 1rem;
+        font-size: 13px;
         cursor: pointer;
         // box-shadow: 0 2px 8px rgb(0 0 0 / 37%);
         transition: background 0.2s, box-shadow 0.2s;
         &:hover {
           // background: linear-gradient(90deg, #4834d4 60%, #81b4f3 100%);
-          box-shadow: 0 4px 16px rgb(82 68 191);
+          box-shadow: 0 0px 16px rgb(82 68 191);
         }
         @include sm {
           padding: 3px 6px;
@@ -143,16 +144,32 @@
           padding: 0;
         }
         .search-item {
-          padding: 0.7rem 1.2rem;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 0.3rem 1.2rem;
           cursor: pointer;
           transition: background 0.18s;
           border-bottom: 1px solid #f3f3f3;
+          font-size: 13px;
           &:hover {
             background: #f6f6fd;
             color: #6c5ce7;
           }
           &:last-child {
             border-bottom: none;
+          }
+          img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+          }
+          .search-item-price {
+            font-size: 0.9rem;
+            color: #ff5a00;
+            font-size: 12px;
+            margin-left: auto;
+            font-weight: 500;
           }
           @include sm {
             font-size: small;
