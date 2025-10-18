@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -12,6 +12,7 @@ type LoginData = {
 const Login = () => {
     const { setIsAuthenticated, setUser } = useContext(Context);
     const navigateTo = useNavigate();
+    const [loading, setLoading] = useState(false);
     const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
 
     const {
@@ -20,6 +21,7 @@ const Login = () => {
     } = useForm<LoginData>();
     const handleLogin = async (data: LoginData) => {
         try {
+            setLoading(true);
             const response = await axios.post(
                 `${baseUrl}/api/user/login`,
                 data,
@@ -42,12 +44,14 @@ const Login = () => {
                 sessionExpire,
             };
             localStorage.setItem("user", JSON.stringify(userWithSession));
+            setLoading(false);
 
             setTimeout(() => {
                 navigateTo("/");
             }, 2000);
         } catch (error: any) {
             toast.error(error.response?.data?.message || "Login failed");
+            setLoading(false);
         }
     };
     return (
@@ -72,7 +76,7 @@ const Login = () => {
                 <p className="forgot-password">
                     <Link to={"/password/forgot"}>Forgot your password?</Link>
                 </p>
-                <button type="submit">Login</button>
+                <button disabled={loading} type="submit">Login</button>
             </form>
         </>
     );
