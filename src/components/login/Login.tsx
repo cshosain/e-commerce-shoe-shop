@@ -49,8 +49,9 @@ const Login = () => {
             setTimeout(() => {
                 navigateTo("/");
             }, 2000);
-        } catch (error: any) {
-            toast.error(error.response?.data?.message || "Login failed");
+        } catch (error: unknown) {
+            const axiosError = error as { response?: { data?: { message?: string } } };
+            toast.error(axiosError.response?.data?.message || "Login failed");
             setLoading(false);
         }
     };

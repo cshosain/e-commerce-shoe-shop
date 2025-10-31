@@ -86,6 +86,10 @@
 .auth-form button:hover {
   background: #005f99; /* Darker blue */
 }
+.auth-form button:disabled {
+  background: #90caf9; /* Light blue for disabled state */
+  cursor: not-allowed;
+}
 
 .verification-method p {
   font-weight: 500;

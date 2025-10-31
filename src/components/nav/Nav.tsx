@@ -1,7 +1,7 @@
 import "./nav.scss";
 import { FiHeart } from "react-icons/fi";
 import { AiOutlineShoppingCart, AiOutlineUserAdd } from "react-icons/ai";
-import { useCallback, useRef, useContext, useState } from "react";
+import { useCallback, useRef, useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Context from "../../contexts/Context.ts";
@@ -18,7 +18,7 @@ const Nav = ({ displayMenu, setDisplayMenu }: Prop) => {
   const { user } = useContext(Context);
   const shoeContext = useContext(ShoeContext);
   const setFilteredCriteria = shoeContext?.setFilteredCriteria;
-  const windowSize = window.innerWidth;
+  const [windowSize, setWindowSize] = useState(window.innerWidth);
 
   const coppyUser = JSON.parse(JSON.stringify(user));
   const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
@@ -100,6 +100,12 @@ const Nav = ({ displayMenu, setDisplayMenu }: Prop) => {
     setSearchResults([]);
     // Optionally clear input: setSearchValue("");
   };
+
+  useEffect(() => {
+    const handleResize = () => setWindowSize(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <nav className="nav-container">
@@ -188,7 +194,7 @@ const Nav = ({ displayMenu, setDisplayMenu }: Prop) => {
           <button className="icon-btn">
             <AiOutlineShoppingCart onClick={() => navigate("/cart")} />
           </button>
-          {user || parsedUser ? (
+          {user || parsedUser?.sessionExpire >= Date.now() ? (
             <div className="profile-dropdown">
               <button className="profile-btn" onClick={() => navigate("/profile")}>
                 <img
